@@ -1,0 +1,144 @@
+/* ResultadoPage.css */
+body, h2, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.resultado-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.resultado-box {
+  width: 100%;
+  max-width: 900px;
+  padding: 30px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+}
+
+.resultado-title {
+  font-size: 28px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #325f9b;
+  font-family: 'Roboto', sans-serif;
+}
+
+.resultado-text {
+  font-size: 20px;
+  margin-bottom: 30px;
+  color: #555;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.answers-box {
+  margin-top: 30px;
+}
+
+.answers-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #444;
+  text-align: center;
+}
+
+.answers-list {
+  list-style: none;
+  padding: 0;
+}
+
+.answer-item {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.question {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #222;
+  line-height: 1.6;
+}
+
+.user-answer {
+  margin-left: 25px;
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.correct-answer {
+  margin-left: 25px;
+  font-size: 16px;
+  color: #325f9b;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.explanation {
+  margin-left: 25px;
+  font-size: 16px;
+  font-style: italic;
+  color: #777;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+.bold-user-answer {
+  font-weight: bold;
+}
+
+.bold-correct-answer {
+  font-weight: bold;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .resultado-box {
+    padding: 20px;
+  }
+
+  .resultado-title {
+    font-size: 24px;
+  }
+
+  .resultado-text,
+  .answers-title {
+    font-size: 18px;
+  }
+
+  .question,
+  .user-answer,
+  .correct-answer,
+  .explanation {
+    font-size: 16px;
+  }
+}
+.certificado-button {
+  background-color: var(--havelock-blue-500);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+}
+.certificado-button:hover {
+  background-color: #284a7e; /* Color de fondo del botón al pasar el mouse */
+}

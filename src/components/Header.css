@@ -1,0 +1,95 @@
+.netmentor-header {
+  background-color: #fff;
+  color: #333;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* Por ejemplo, puedes ajustar el valor según tus necesidades */
+  margin: 0 auto; /* Esto centrará el encabezado horizontalmente */
+  font-size: large;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body, h2, p, a, button, ul, li{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.netmentor-header .link {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #325f9b;
+  text-decoration: none;
+  padding: 0.5rem 1rem; /* Aumenta el padding horizontal para mayor separación */
+  transition: color 0.3s ease, font-weight 0.3s ease, background-color 0.3s ease;
+  border: 2px solid #325f9b; /* Borde siempre visible */
+  border-radius: 25px; /* Da forma de elipse */
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.netmentor-header .link:hover {
+    font-weight: bold;
+  color: #5687d2;
+  background-color: #dbedfe; /* Color celeste pastel */
+}
+
+.netmentor-header .nav {
+  display: flex;
+  gap: 1rem; /* Agrega espacio entre los enlaces */
+}
+
+.netmentor-header .t1 {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 25px;
+  color: #2d507b; /* Color de texto normal */
+  text-decoration: none; /* Elimina el subrayado del enlace */
+  transition: color 0.3s ease, font-weight 0.3s ease; /* Agrega una transición suave al cambio de color y negrita */
+}
+
+
+.netmentor-header .logo {
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.netmentor-header .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  position: relative; /* Esto es importante para posicionar correctamente el menú desplegable */
+}
+
+.netmentor-header .name {
+  position: relative;
+}
+
+.netmentor-header .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  z-index: 1000; /* Asegúrate de que el menú desplegable esté por encima de otros elementos */
+}
+
+.netmentor-header .dropdown-item {
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease;
+  font-family: inherit; /* Hereda la fuente de .dropdown-menu */
+
+}
+
+.netmentor-header .dropdown-item:hover {
+  background-color: #f5f5f5;
+}

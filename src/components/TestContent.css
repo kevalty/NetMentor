@@ -1,0 +1,193 @@
+/* TestContent.css */
+.diagnostico-page, .final-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+body, h1, h2, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.diagnostico-content, .final-content {
+  width: 70%;
+  max-width: 900px;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.diagnostico-exam-info, .final-exam-info {
+  margin-bottom: 30px;
+}
+
+.diagnostico-exam-title, .final-exam-title {
+  font-size: 36px;
+  color: #325f9b;
+  margin-bottom: 10px;
+}
+
+.diagnostico-exam-info-text, .diagnostico-exam-length-text, .final-exam-info-text, .final-exam-length-text {
+  font-size: 18px;
+}
+
+.diagnostico-question-section, .final-question-section {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.diagnostico-question-instructions, .final-question-instructions {
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.diagnostico-question-box, .final-question-box {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.diagnostico-question-content, .final-question-content {
+  padding: 10px;
+}
+
+.diagnostico-question-name, .final-question-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: #325f9b;
+  margin-bottom: 10px;
+}
+
+.diagnostico-choices-list, .final-choices-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.diagnostico-choice-item, .final-choice-item {
+  margin-top: 10px;
+}
+
+.diagnostico-choice-radio, .final-choice-radio {
+  margin-right: 10px;
+}
+
+.diagnostico-choice-checkbox {
+  margin-right: 10px;
+}
+
+.finish-exam-button-container, .final-finish-exam-button-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.diagnostico-finish-exam-button, .final-finish-exam-button {
+  background-color: #325f9b;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 18px;
+}
+
+.diagnostico-finish-exam-button:hover, .final-finish-exam-button:hover {
+  background-color: #284a7e;
+  transform: scale(1.05);
+}
+
+.diagnostico-drag-and-drop-container, .final-drag-and-drop-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.diagnostico-drag-drop-sentence, .final-drag-drop-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.diagnostico-drag-placeholder, .final-drag-placeholder {
+  padding: 0 10px;
+  border: 1px dashed #325f9b;
+  border-radius: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.diagnostico-drag-options, .final-drag-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.diagnostico-drag-option, .final-drag-option {
+  padding: 10px;
+  background-color: #325f9b;
+  color: white;
+  border-radius: 5px;
+  cursor: grab;
+  user-select: none;
+}
+
+.diagnostico-drag-option:active, .final-drag-option:active {
+  cursor: grabbing;
+}
+
+.time-modal-container, .final-time-modal-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(50, 95, 155, 0.95);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  z-index: 1000;
+}
+
+.time-modal-content, .final-time-modal-content {
+  text-align: center;
+}
+
+.time-modal-text, .final-time-modal-text {
+  font-size: 18px;
+  color: white;
+}
+
+.sidebar-open .final-page-container {
+  margin-left: 250px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .diagnostico-content, .final-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .diagnostico-exam-title, .final-exam-title {
+    font-size: 28px;
+  }
+
+  .diagnostico-exam-info-text, .diagnostico-exam-length-text, .final-exam-info-text, .final-exam-length-text,
+  .diagnostico-question-instructions, .final-question-instructions {
+    font-size: 16px;
+  }
+
+  .diagnostico-question-name, .final-question-name {
+    font-size: 16px;
+  }
+
+  .diagnostico-finish-exam-button, .final-finish-exam-button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}

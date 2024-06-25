@@ -1,0 +1,63 @@
+.help-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .modal-conten1t {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    max-width: 1000px;
+    width: 90%;
+    max-height: 80vh; /* Limita la altura máxima del modal */
+    overflow-y: auto; /* Habilita el desplazamiento vertical */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1001; /* Asegura que el modal esté por encima del overlay */
+  }
+  
+  .modal-overlay1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000; /* Asegura que el overlay esté por debajo del modal pero por encima del contenido */
+  }
+  
+  .close-button {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  /* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .modal-conten1t {
+    width: 95%;
+    padding: 10px;
+  }
+  .help-button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}

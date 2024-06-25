@@ -1,0 +1,97 @@
+/* General Styles */
+
+.admin-home-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-content {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-content__container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.admin-content__title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.admin-content__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.content-card {
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  width: calc(33.33% - 20px); /* Ajusta el ancho para que entren tres por fila */
+  min-height: 100px; /* Ajusta la altura mínima para uniformidad */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+}
+
+.content-card__title {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #003366;
+  text-align: center; /* Centrar el texto del título */
+}
+
+.content-card__actions {
+  display: flex;
+  justify-content: center; /* Centrar las acciones */
+  margin-top: 10px;
+}
+
+.action-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.action-icon:hover {
+  opacity: 0.7;
+}
+
+.add-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.add-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.add-title {
+  font-size: 16px;
+  color: #003366;
+}

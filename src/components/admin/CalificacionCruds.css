@@ -1,0 +1,58 @@
+.admin-content__container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-content__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .admin-content__inner {
+    gap: 10px;
+  }
+  
+  .grades-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .grades-table th, .grades-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .grades-table th {
+    background-color: #3d92f4;
+    color: white;
+    text-align: left;
+  }
+  
+  .grades-table td {
+    vertical-align: top;
+  }
+  
+  .grades-table p {
+    margin: 0;
+    padding: 2px 0;
+  }
+  
+  .export-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3d92f4;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+  }
+  
+  .export-button:hover {
+    background-color: #2573e9;
+  }
+  

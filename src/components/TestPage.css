@@ -1,0 +1,195 @@
+/* TestPage.css */
+:root {
+  --primary-color: #325f9b;
+  --secondary-color: #284a7e;
+  --text-color: #333;
+  --background-color: #f9f9f9;
+  --border-color: #e0e0e0;
+  --box-shadow-color: rgba(0, 0, 0, 0.1);
+  --highlight-color: #ff0000;
+  --success-color: #00ff00;
+}
+
+body, h2, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.final-content1 {
+  width: 70%;
+  max-width: 1000px;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 0px 30px var(--box-shadow-color);
+  text-align: center;
+  margin-left: 200px;
+  margin-top: 50px;
+}
+
+.final-exam-info {
+  margin-bottom: 30px;
+}
+
+.final-exam-title {
+  font-size: 36px;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.final-exam-info-text, .final-exam-length-text {
+  font-size: 18px;
+}
+
+.final-question-section {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.final-question-instructions {
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.final-question-box {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.final-question-content {
+  padding: 10px;
+}
+
+.final-question-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.final-choices-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.final-choice-item {
+  margin-top: 10px;
+}
+
+.final-choice-radio {
+  margin-right: 10px;
+}
+
+.final-choice-checkbox {
+  margin-right: 10px;
+}
+
+.finish-exam-button-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.final-finish-exam-button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 18px;
+}
+
+.final-finish-exam-button:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.05);
+}
+
+.final-drag-and-drop-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.final-drag-drop-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.final-drag-placeholder {
+  padding: 0 10px;
+  border: 1px dashed var(--primary-color);
+  border-radius: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.final-drag-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.final-drag-option {
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 5px;
+  cursor: grab;
+  user-select: none;
+}
+
+.final-drag-option:active {
+  cursor: grabbing;
+}
+
+.time-modal-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(50, 95, 155, 0.95);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  z-index: 1000;
+}
+
+.time-modal-content {
+  text-align: center;
+}
+
+.time-modal-text {
+  font-size: 18px;
+  color: white;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .final-content1 {
+    width: 90%;
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .final-exam-title {
+    font-size: 28px;
+  }
+
+  .final-exam-info-text, .final-exam-length-text, .final-question-instructions {
+    font-size: 16px;
+  }
+
+  .final-question-name {
+    font-size: 16px;
+  }
+
+  .final-finish-exam-button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}

@@ -1,0 +1,48 @@
+/* Estilos para el contenedor de preguntas */
+.questions-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  /* Estilos para el cuadro de pregunta */
+  .question-card {
+    width: 40%;
+    margin-bottom: 20px;
+    padding: 45px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Estilos para los botones de editar y eliminar */
+  .question-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  .edit-icon,
+  .delete-icon {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  /* Estilos para el icono de crear */
+  .add-icon {
+    position: relative;
+    top: -10px; /* Ajusta la posición vertical según sea necesario */
+    left: 0;
+    width: 30px; /* Ajusta el tamaño del icono según sea necesario */
+    cursor: pointer;
+  }
+  
+  .add-title {
+    position: absolute;
+    top: 17px; /* Ajusta la posición vertical según sea necesario */
+    left: 20px; /* Ajusta la posición horizontal según sea necesario */
+    font-size: 14px; /* Ajusta el tamaño del texto según sea necesario */
+    color: #333; /* Ajusta el color del texto según sea necesario */
+  }
+  
+  /* Estilos adicionales según sea necesario */
+  

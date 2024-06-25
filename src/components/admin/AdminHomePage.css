@@ -1,0 +1,44 @@
+.admin-content {
+    margin-top: 30px; /* Espacio entre el encabezado y el contenido */
+    margin-left: 100px; /* Ancho de la barra de navegación */
+    position: relative; /* Añade posicionamiento relativo al contenedor padre */
+  }
+  
+  .admin-content__container1 {
+    margin-left: -40px;
+    border: 2px solid #ccc; /* Borde */
+    padding: 20px; /* Espaciado interior */
+    height: auto;
+    margin-top: 20px;
+  }
+  
+  .admin-content__title1 {
+    position: absolute; /* Posición absoluta para el título */
+    top: -45px; /* Ajuste para mover el título hacia arriba */
+    left: 50%; /* Centrar el título horizontalmente */
+    transform: translateX(-50%); /* Centrar el título horizontalmente */
+    background-color: white; /* Fondo blanco para ocultar el borde superior */
+    padding: 0 10px; /* Espaciado para el título */
+  }
+  
+  .admin-content__logo1 {
+    display: block;
+    margin: 0 auto 20px; /* Centrar el logo y añadir espacio debajo */
+    height: 200px;
+    width: 200px;
+    padding: 20px;
+    margin-left: 100px;
+    margin-top: 75px ;
+  }
+  
+  .admin-content__text1 {
+    text-align: justify; /* Centrar el texto */
+    font-size: 18px;
+    line-height: 1.5;
+    padding: 20px;
+    margin-left: 40px;
+    margin-top: 75px;
+  }
+.admin-content__inner1{
+  display: flex;
+}

@@ -1,0 +1,192 @@
+.login-page-specific {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  padding: 0 20px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+body, h2, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.login-page-specific .section1,
+.login-page-specific .section2 {
+  flex: 1;
+}
+
+.login-page-specific .section1 {
+  padding-left: 20px;
+  min-height: 100%;
+  margin-top: -100px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centra la imagen verticalmente */
+  text-align: center;
+}
+
+.login-page-specific .section2- {
+  padding-left: 20px;
+  background-image: url('../assets/background_login.jpg');
+  min-height: 70%;
+  margin-top: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centra la imagen verticalmente */
+  text-align: center;
+  width: 700px;
+}
+
+.login-page-specific .login-form1 {
+  width: 70%; /* O ajusta el porcentaje que desees */
+  margin: auto; /* Centra horizontalmente */
+  padding: 0; /* Elimina el padding */
+}
+
+.login-page-specific .login-form1 h2 {
+  margin-top: 0;
+  margin-bottom: 40px;
+  color: #325f9b;
+}
+
+.login-page-specific .login-form1 input {
+  margin-bottom: 20px; /* Espacio entre los inputs */
+  padding: 10px 0; /* Ajusta el padding superior e inferior */
+  padding-left: 15px; /* Espacio a la izquierda para separar el texto del borde */
+  border: none; /* Elimina los bordes */
+  border-bottom: 1px solid #ccc; /* Añade una línea inferior */
+  outline: none; /* Elimina el contorno */
+  width: 70%; /* Ancho del input */
+  font-size: 16px; /* Tamaño de la fuente */
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+/* Opcional: Remueve el margen inferior del último input */
+.login-page-specific .login-form1 input:last-child {
+  margin-bottom: 0;
+}
+
+/* Cambia el color de la línea inferior al enfocar */
+.login-page-specific .login-form1 input:focus {
+  border-bottom: 1px solid #516CEA;
+}
+
+.login-page-specific .login-form1 button {
+  padding: 10px 16px; /* Ajusta el padding del botón */
+  margin-top: 10px; /* Añade espacio entre los inputs y el botón */
+  background-color: #325f9b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-page-specific .login-form1 button:hover {
+  background-color: #0056b3;
+}
+
+.login-page-specific .login-form1 a {
+  color: #1f5fd6;
+  text-decoration: none;
+}
+
+.login-page-specific .login-form1 a:hover {
+  background-color: #dbedfe; /* Fondo color celeste */
+  border-radius: 5px; /* Borde redondeado */
+  padding: 5px 10px; /* Añade padding para el cuadro */
+  text-decoration: none;
+  color: #1f5fd6; /* Cambia el color del texto a blanco */
+}
+
+.login-page-specific .img1 {
+  width: 200px;
+  height: 200px;
+}
+
+.login-page-specific .imagendiv {
+  margin-top: 140px;
+}
+
+.login-page-specific .text1- {
+  color: #fff;
+  margin-top: -100px;
+}
+
+.login-page-specific .password-toggle-button {
+  background-color: transparent; /* Cambiamos el color de fondo a transparente */
+  border: none; /* Eliminamos el borde */
+  padding: 0; /* Ajustamos el padding a 0 para evitar espacio adicional */
+  cursor: pointer;
+}
+
+.login-page-specific .password-toggle-button img {
+  width: 25px; /* ajusta el tamaño según sea necesario */
+  height: 25px;
+  /* Agrega cualquier otro estilo necesario */
+}
+
+.login-page-specific .password-input-container {
+  position: relative; /* Establecemos la posición del contenedor */
+}
+
+.login-page-specific .password-toggle-button {
+  position: absolute; /* Establecemos la posición del botón */
+  top: 20%; /* Lo colocamos en el centro verticalmente */
+  right: 63px; /* Lo colocamos en el borde derecho del contenedor */
+  transform: translateY(-50%); /* Ajustamos para centrarlo verticalmente */
+}
+
+.login-page-specific .olvi {
+  margin-top: 20px;
+}
+
+.login-page-specific .login-button {
+  padding: 10px 16px; /* Ajusta el padding del botón */
+  margin-top: 10px; /* Añade espacio entre los inputs y el botón */
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 180px;
+}
+
+.login-page-specific .login-button img {
+  width: 20px; /* ajusta el tamaño según sea necesario */
+  height: 20px;
+}
+
+.login-page-specific .login-text {
+  display: none; /* Ocultamos el texto inicialmente */
+}
+
+.login-page-specific .login-button:hover .login-text {
+  display: flex; /* Mostramos el texto cuando el cursor está sobre el botón */
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .login-page-specific {
+    flex-direction: column;
+  }
+  .login-page-specific .section1, 
+  .login-page-specific .section2- {
+    width: 100%;
+    margin: 10px 0;
+  }
+  .login-page-specific .login-form1 {
+    width: 90%;
+  }
+  .login-page-specific .login-form1 button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

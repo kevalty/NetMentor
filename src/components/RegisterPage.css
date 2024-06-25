@@ -1,0 +1,168 @@
+/* RegisterPage.css */
+.register-page-specific {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body, h2, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.register-page-specific .section1,
+.register-page-specific .section2 {
+  flex: 1;
+}
+
+.register-page-specific .section1 {
+  padding-left: 20px;
+  min-height: 100%;
+  margin-top: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.register-page-specific .section2 {
+  padding-left: 20px;
+  background-image: url('../assets/background_login.jpg');
+  min-height: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 700px;
+  height: 700px;
+}
+
+.register-page-specific .register-form1 {
+  width: 70%;
+  margin: auto;
+  padding: 0;
+}
+
+.register-page-specific .register-form1 h2 {
+  margin-top: 0;
+  margin-bottom: 40px;
+  color: #325f9b;
+}
+
+.register-page-specific .register-form1 .input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.register-page-specific .register-form1 input,
+.register-page-specific .register-form1 select {
+  margin-bottom: 20px;
+  padding: 10px 0;
+  padding-left: 15px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.register-page-specific .register-form1 input:last-child {
+  margin-bottom: 0;
+}
+
+.register-page-specific .register-form1 input:focus {
+  border-bottom: 1px solid #516CEA;
+}
+
+.register-page-specific .password-input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.register-page-specific .password-input-container input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.register-page-specific .password-toggle-button {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.register-page-specific .password-toggle-button img {
+  width: 25px;
+  height: 25px;
+}
+
+.register-page-specific .olvi {
+  margin-top: 20px;
+}
+
+.register-page-specific .register-button {
+  padding: 5px 10px;
+  margin-top: 60px;
+  background-color: #325f9b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.register-page-specific .register-button:hover {
+  background-color: #0056b3;
+}
+
+.register-page-specific .register-button img {
+  width: 25px;
+  height: 25px;
+  display: block;
+  margin: auto;
+}
+
+.register-page-specific .login-text {
+  display: none;
+}
+
+.register-page-specific .register-button:hover .login-text {
+  display: flex;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .register-page-specific {
+    flex-direction: column;
+    align-items: center;
+  }
+  .register-page-specific .section1,
+  .register-page-specific .section2 {
+    width: 100%;
+    margin: 10px 0;
+  }
+  .register-page-specific .section2 {
+    height: auto;
+    background-size: cover;
+  }
+  .register-page-specific .register-form1 {
+    width: 90%;
+  }
+}

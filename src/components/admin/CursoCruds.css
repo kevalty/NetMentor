@@ -1,0 +1,67 @@
+/* Styles for the main content */
+.admin-content__container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.admin-content__title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.admin-content__inner {
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.curso-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.curso-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.edit-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.edit-icon:hover {
+  opacity: 0.7;
+}
+
+/* Styles for the add button */
+.add-course {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.add-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.add-title {
+  font-size: 16px;
+  color: #003366;
+}

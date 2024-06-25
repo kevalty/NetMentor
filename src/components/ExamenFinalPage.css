@@ -1,0 +1,105 @@
+.final-test-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px);
+  transition: margin-left 0.3s ease;
+  margin-left: 0;
+}
+body, h2, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.final-test-page-content {
+  width: 85%; /* Ajusta el ancho del contenido */
+  max-width: 800px; /* Aumenta el ancho máximo */
+  padding: 40px; /* Aumenta el padding */
+  border-radius: 15px; /* Ajusta el radio del borde */
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.final-test-page-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+.start-test-button {
+  background-color: var(--havelock-blue-500);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+
+}
+
+.contenido-clase-button2:hover {
+  background-color: var(--havelock-blue-600);
+  transform: scale(1.05);
+}
+
+
+.final-test-page-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar-open .final-test-page-content {
+  margin-left: 250px;
+}
+
+.final-test-result h2,
+.final-test-unavailable h2 {
+  color: #325f9b;
+  text-align: center;
+  font-size: 24px;
+  margin: 20px 0;
+}
+
+.final-test-congratulations {
+  font-size: 1.2em;
+  margin-top: 20px;
+  color: #325f9b;
+  text-align: center;
+}
+
+p {
+  padding: 10px 15px;
+  line-height: 1.5;
+  text-align: center;
+  color: #555; /* Text color */
+}
+
+.contenido-clase-title-diag {
+  font-size: 28px;
+  color: #325f9b;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.final-test-content p {
+  color: #555;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .final-test-page-content {
+    width: 100%;
+    padding: 20px;
+  }
+  .final-test-result h2,
+  .final-test-unavailable h2 {
+    font-size: 20px;
+  }
+  .start-test-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

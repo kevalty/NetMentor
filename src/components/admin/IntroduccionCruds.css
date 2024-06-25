@@ -1,0 +1,26 @@
+/* IntroduccionCruds.css */
+
+.content-card {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.3s;
+  width: calc(33.33% - 20px); /* Ajusta el ancho para que entren tres por fila */
+  min-height: 250px; /* Ajusta la altura mínima si es necesario */
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.content-card:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-5px); /* Añade un pequeño efecto de desplazamiento */
+}
+
+.content-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}

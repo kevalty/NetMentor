@@ -1,0 +1,119 @@
+.homepage {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+body, h2, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: large;
+  margin-top: 60px;
+  margin-left: 100px;
+}
+
+.container1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: large;
+  margin-top: 140px;
+  margin-left: 50px;
+}
+
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 100px;
+  text-align: center;
+}
+
+.column {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.column.left {
+  order: 2;
+}
+
+.column.left .diamond-image {
+  width: 200px;
+  height: 200px;
+  background-image: url('../assets/logo.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.column:nth-child(2) {
+  order: 1;
+}
+
+.new-content {
+  flex: 1;
+  max-width: 300px;
+  order: 3;
+}
+
+@media (max-width: 768px) {
+  .column.left,
+  .column:nth-child(2),
+  .new-content {
+    flex: 1;
+    max-width: none;
+    order: unset;
+  }
+}
+
+.imagenes {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px; /* Añadir margen inferior a las imágenes */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tittle1 {
+  font-size: xx-large;
+  margin-top: -100px;
+  text-decoration: underline; /* Cambiar a subrayado para mejorar la estética */
+}
+
+.divider {
+  margin-top: 50px; /* Ajustar el margen superior para la línea divisoria */
+  width: 100%;
+  border-top: 1px solid #ccc;
+}
+
+.section.main-section {
+  margin-bottom: 50px; /* Reducir el margen inferior para mayor armonía */
+}
+
+.section.second-section .column h3 {
+  margin-bottom: 10px; /* Añadir un pequeño margen inferior a los títulos */
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .container, .container1 {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .column {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .imagenes {
+    width: 50px;
+    height: 50px;
+  }
+  .tittle1 {
+    font-size: large;
+    margin-top: 0;
+  }
+}

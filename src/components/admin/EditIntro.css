@@ -1,0 +1,58 @@
+/* EditIntro.css */
+.admin-content__title {
+    margin-bottom: 20px;
+  }
+  
+  .intro-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .intro-card__title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .intro-card__date {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
+  }
+  
+  .intro-card__actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .action-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .no-intro {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .create-intro-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .create-intro-btn img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  

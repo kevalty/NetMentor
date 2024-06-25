@@ -1,0 +1,34 @@
+.admin-header {
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ccc; /* Línea al final del encabezado */
+  position: relative; /* Para centrar el logo */
+  height: 60px; /* Altura fija para el header */
+}
+
+
+
+.admin-header__admin-section {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espacio entre el nombre de usuario y el botón de logout */
+  font-weight: bold;
+}
+
+.admin-header__logout-button {
+  background-color: var(--mariner-700);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-header__logout-button:hover {
+  background-color: var(--havelock-blue-600);
+}

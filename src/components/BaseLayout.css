@@ -1,0 +1,49 @@
+.main-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Crear una cuadrícula de 3 columnas */
+    gap: 20px; /* Agregar espacio entre los divs */
+    padding: 20px;
+  }
+  
+  .content-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content-image {
+    width: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
+    margin-bottom: 10px; /* Agregar espacio entre la imagen y el título */
+  }
+  
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333; /* Color de fondo del footer */
+    color: white; /* Color de texto del footer */
+    text-align: center;
+    padding: 10px 0; /* Espaciado interno del footer */
+  }

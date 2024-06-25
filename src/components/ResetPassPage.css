@@ -1,0 +1,65 @@
+/* ResetPassPage.css */
+.reset-pass-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+body, h2, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.reset-pass-content {
+  width: 50%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.reset-pass-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.reset-pass-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.reset-pass-form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reset-pass-form button:hover {
+  background-color: #0056b3;
+}
+
+.reset-pass-message {
+  margin-top: 10px;
+}
+
+.reset-pass-invalid {
+  margin-top: 10px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .reset-pass-content {
+    width: 90%;
+    padding: 20px;
+  }
+}
