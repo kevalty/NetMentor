@@ -23,6 +23,7 @@ const RegisterPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [emptyFields, setEmptyFields] = useState([]);
   const [cursos, setCursos] = useState([]);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
   useEffect(() => {
     // Cargar los cursos desde la API
@@ -76,6 +77,13 @@ const RegisterPage = () => {
       return;
     }
 
+    // Verificar si el nombre de usuario contiene espacios
+    if (/\s/.test(username)) {
+      setError('El nombre de usuario no puede contener espacios');
+      setErrorOpen(true);
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
       setErrorOpen(true);
@@ -109,12 +117,22 @@ const RegisterPage = () => {
       });
 
       if (response.ok) {
-        setError('');
-        setRegisterData({ username: '', email: '', password: '', name: '', lastname: '', confirmPassword: '', curso: '' });
-        setSuccessOpen(true);
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000); // Redirige a /login después de 2 segundos
+        // Enviar correo de confirmación
+        const confirmationResponse = await fetch(`${API_BASE_URL}auth/email-confirmation?email=${email}`, {
+          method: 'GET',
+        });
+
+        if (confirmationResponse.ok) {
+          setError('');
+          setRegisterData({ username: '', email: '', password: '', name: '', lastname: '', confirmPassword: '', curso: '' });
+          setSuccessOpen(true);
+          setTimeout(() => {
+            navigate('/login');
+          }, 2000); // Redirige a /login después de 2 segundos
+        } else {
+          setError('Error al enviar el correo de confirmación');
+          setErrorOpen(true);
+        }
       } else {
         const data = await response.json();
         setError(data.message || 'Error al registrar usuario');
@@ -149,7 +167,15 @@ const RegisterPage = () => {
             <div className="input-container">
               <input type="text" name="name" value={registerData.name} onChange={handleRegisterChange} placeholder="Nombre *" required />
               <input type="text" name="lastname" value={registerData.lastname} onChange={handleRegisterChange} placeholder="Apellido *" required />
-              <input type="text" name="username" value={registerData.username} onChange={handleRegisterChange} placeholder="Nombre de Usuario *" required />
+              <input
+                type="text"
+                name="username"
+                value={registerData.username}
+                onChange={handleRegisterChange}
+                placeholder="Nombre de Usuario *"
+                style={{ borderColor: registerData.username && /\s/.test(registerData.username) ? 'red' : '' }}
+                required
+              />
               <input
                 type="email"
                 name="email"
@@ -175,9 +201,16 @@ const RegisterPage = () => {
                   value={registerData.password}
                   onChange={handleRegisterChange}
                   placeholder="Contraseña *"
+                  onFocus={() => setIsPasswordFocused(true)}
+                  onBlur={() => setIsPasswordFocused(false)}
                   style={{ borderColor: registerData.password ? (isValidPassword(registerData.password) ? 'green' : 'red') : '' }}
                 />
               </div>
+              {isPasswordFocused && (
+                <div className="password-help-text">
+                  Las contraseñas deben contener: Al menos una mayúscula, un número y 8 caracteres
+                </div>
+              )}
               <div className="password-input-container">
                 <button
                   type="button"
@@ -210,9 +243,6 @@ const RegisterPage = () => {
                 ))}
               </select>
             </div>
-            <span style={{ color: 'gray', fontSize: '15px', marginLeft: '5px' }}>
-              Las contraseñas deben contener: Al menos una mayúscula, un número y 8 caracteres
-            </span>
             <button type="submit" className="register-button">
               <img src={RegisterIcon} alt="register" />
             </button>
@@ -224,7 +254,7 @@ const RegisterPage = () => {
         </section>
         <Snackbar open={successOpen} autoHideDuration={6000} onClose={handleClose}>
           <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="success">
-            ¡Registro exitoso!
+            ¡Registro exitoso! Por favor, revise su correo para verificar su cuenta.
           </MuiAlert>
         </Snackbar>
         <Snackbar open={errorOpen} autoHideDuration={6000} onClose={handleClose}>

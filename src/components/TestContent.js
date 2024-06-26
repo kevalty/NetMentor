@@ -201,6 +201,8 @@ const TestPage = () => {
       }
     }, 0);
 
+    const roundedScore = Math.round(score); // Redondear el puntaje
+
     if (userData) {
       const jwt = localStorage.getItem('jwt');
 
@@ -222,7 +224,7 @@ const TestPage = () => {
         const resultData = {
           data: {
             name: `Prueba de '${contentName}'`,
-            grades: score,
+            grades: roundedScore,
             users_permissions_user: userData.id
           }
         };
@@ -282,7 +284,7 @@ const TestPage = () => {
       console.error('Datos del usuario no disponibles');
     }
 
-    navigate('/resultado', { state: { score, questions, answers } });
+    navigate('/resultado', { state: { score: roundedScore, questions, answers } });
   };
 
   const formatTime = (seconds) => {

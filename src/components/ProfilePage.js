@@ -143,7 +143,7 @@ const ProfilePage = () => {
   };
 
   const getProfilePictureUrl = (userData) => {
-    return userData && userData.profilePicture ? `https://localhost:1337${userData.profilePicture.url}` : 'https://via.placeholder.com/150';
+    return userData && userData.profilePicture ? `https://netmentor.tech${userData.profilePicture.url}` : 'https://via.placeholder.com/150';
   };
 
   return (

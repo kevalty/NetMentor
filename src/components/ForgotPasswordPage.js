@@ -79,7 +79,6 @@ const ForgotPasswordPage = ({ resetPasswordUrl }) => {
           {successMessage && <p className="success">{successMessage}</p>}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

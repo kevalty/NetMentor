@@ -68,17 +68,7 @@ const ManualLogeado = () => {
         </ol>
       </section>
       
-      <section>
-        <h2>Restablecer Contraseña</h2>
-        <p>
-          Si olvidaste tu contraseña:
-        </p>
-        <ol>
-          <li>En la página de inicio de sesión, haz clic en <strong>¿Olvidaste tu contraseña?</strong>.</li>
-          <li>Ingresa tu correo electrónico para recibir instrucciones de restablecimiento.</li>
-          <li>Sigue las instrucciones del correo para crear una nueva contraseña.</li>
-        </ol>
-      </section>
+
       
       <section>
         <h2>Navegación</h2>

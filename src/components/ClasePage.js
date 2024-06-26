@@ -12,14 +12,11 @@ const ClasePage = () => {
   const [contentDetails, setContentDetails] = useState(null);
   const [resourceUrl, setResourceUrl] = useState(null);
   const [activeSubcontentType, setActiveSubcontentType] = useState(null); // Estado para manejar el subcontenido activo
-  const [materialRealizado, setMaterialRealizado] = useState(false); // Estado para material realizado
-  const [videoRealizado, setVideoRealizado] = useState(false); // Estado para video realizado
-  const [juegoRealizado, setJuegoRealizado] = useState(false); // Estado para juego realizado
-  const [refuerzoRealizado, setRefuerzoRealizado] = useState(false); // Estado para refuerzo realizado
+  const [clickedUrls, setClickedUrls] = useState({});
   const { contentId } = useParams();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [visibleSubcontent, setVisibleSubcontent] = useState(null); 
+  const [visibleSubcontent, setVisibleSubcontent] = useState(null);
   const [testId, setTestId] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false);
 
@@ -46,6 +43,18 @@ const ClasePage = () => {
           const data = await response.json();
           setContentDetails(data.data.attributes);
           setTestId(data.data.attributes.test.data?.id); // Correctly access nested test ID
+
+          // Initialize the clicked URLs state
+          const initialClickedUrls = {};
+          data.data.attributes.subcontents.data.forEach(subcontent => {
+            initialClickedUrls[subcontent.id] = {
+              material: !subcontent.attributes.material_url,
+              video: !subcontent.attributes.video_url,
+              juego: !subcontent.attributes.juego_url,
+              refuerzo: !subcontent.attributes.refuerzo_url
+            };
+          });
+          setClickedUrls(initialClickedUrls);
         } else {
           console.error('Error fetching content details');
         }
@@ -67,44 +76,18 @@ const ClasePage = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleLinkClick = (url, type) => {
+  const handleLinkClick = (url, type, subcontentId) => {
     setResourceUrl(url);
     setActiveSubcontentType(type); // Set the active subcontent type
 
-    // Update the corresponding realizado state
-    if (type === 'material') setMaterialRealizado(true);
-    if (type === 'video') setVideoRealizado(true);
-    if (type === 'juego') setJuegoRealizado(true);
-    if (type === 'refuerzo') setRefuerzoRealizado(true);
-  };
-
-  const handleContentRealizado = async (type) => {
-    const jwt = localStorage.getItem('jwt');
-    try {
-      const response = await fetch(`${API_BASE_URL}subcontents/${contentId}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: {
-            [type + '_url']: true,
-          },
-        }),
-      });
-
-      if (response.ok) {
-        if (type === 'material') setMaterialRealizado(true);
-        if (type === 'video') setVideoRealizado(true);
-        if (type === 'juego') setJuegoRealizado(true);
-        if (type === 'refuerzo') setRefuerzoRealizado(true);
-      } else {
-        console.error(`Error updating ${type} status`);
+    // Update the clicked URL state
+    setClickedUrls(prevState => ({
+      ...prevState,
+      [subcontentId]: {
+        ...prevState[subcontentId],
+        [type]: true
       }
-    } catch (error) {
-      console.error(`Network error updating ${type} status:`, error);
-    }
+    }));
   };
 
   const toggleSubcontentOptions = (subcontentId) => {
@@ -112,7 +95,11 @@ const ClasePage = () => {
   };
 
   const handleTestButtonClick = () => {
-    if (materialRealizado && videoRealizado && juegoRealizado && refuerzoRealizado) {
+    const allClicked = Object.values(clickedUrls).every(urls =>
+      Object.values(urls).every(clicked => clicked)
+    );
+
+    if (allClicked) {
       if (testId) {
         navigate(`/TestContent/${contentId}/${testId}`);
       } else {
@@ -145,22 +132,22 @@ const ClasePage = () => {
               {visibleSubcontent === subcontent.id && (
                 <ul>
                   {subcontent.attributes.material_url && (
-                    <li onClick={() => handleLinkClick(subcontent.attributes.material_url, 'material')}>
+                    <li onClick={() => handleLinkClick(subcontent.attributes.material_url, 'material', subcontent.id)}>
                       <a className={`subcontent-sublink2 ${activeSubcontentType === 'material' ? 'active' : ''}`}>Material Didactico</a>
                     </li>
                   )}
                   {subcontent.attributes.video_url && (
-                    <li onClick={() => handleLinkClick(subcontent.attributes.video_url, 'video')}>
+                    <li onClick={() => handleLinkClick(subcontent.attributes.video_url, 'video', subcontent.id)}>
                       <a className={`subcontent-sublink2 ${activeSubcontentType === 'video' ? 'active' : ''}`}>Video interactivo</a>
                     </li>
                   )}
                   {subcontent.attributes.juego_url && (
-                    <li onClick={() => handleLinkClick(subcontent.attributes.juego_url, 'juego')}>
+                    <li onClick={() => handleLinkClick(subcontent.attributes.juego_url, 'juego', subcontent.id)}>
                       <a className={`subcontent-sublink2 ${activeSubcontentType === 'juego' ? 'active' : ''}`}>Actividad de refuerzo</a>
                     </li>
                   )}
                   {subcontent.attributes.refuerzo_url && (
-                    <li onClick={() => handleLinkClick(subcontent.attributes.refuerzo_url, 'refuerzo')}>
+                    <li onClick={() => handleLinkClick(subcontent.attributes.refuerzo_url, 'refuerzo', subcontent.id)}>
                       <a className={`subcontent-sublink2 ${activeSubcontentType === 'refuerzo' ? 'active' : ''}`}>Material de Refuerzo</a>
                     </li>
                   )}
@@ -170,7 +157,7 @@ const ClasePage = () => {
           ))}
           {testId && (
             <button
-              className={`test-button2 ${materialRealizado && videoRealizado && juegoRealizado && refuerzoRealizado ? '' : 'disabled'}`}
+              className={`test-button2 ${Object.values(clickedUrls).every(urls => Object.values(urls).every(clicked => clicked)) ? '' : 'disabled'}`}
               onClick={handleTestButtonClick}
             >
               Tomar Examen

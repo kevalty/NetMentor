@@ -164,11 +164,13 @@ const DiagnosticoPage = () => {
       }
     }, 0);
 
+    const roundedScore = Math.round(score); // Redondear el puntaje
+
     if (userData) {
       const resultData = {
         data: {
           name: 'Prueba Diagnostica',
-          grades: score,
+          grades: roundedScore,
           users_permissions_user: userData.id
         }
       };
@@ -259,7 +261,7 @@ const DiagnosticoPage = () => {
       console.error('Datos del usuario no disponibles');
     }
 
-    navigate('/resultado', { state: { score, questions, answers } });
+    navigate('/resultado', { state: { score: roundedScore, questions, answers } });
   };
 
   if (!testActive) {

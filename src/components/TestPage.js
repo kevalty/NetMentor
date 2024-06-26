@@ -144,7 +144,7 @@ const TestPage = () => {
       if (correctIndexes.length === 0) {
         return acc;
       }
-      
+
       if (questions[index].attributes.type === 'drag-and-drop') {
         const totalCorrect = correctIndexes.filter((correctIndex, i) => correctIndex === answer[i]).length;
         return acc + totalCorrect / correctIndexes.length;
@@ -154,11 +154,13 @@ const TestPage = () => {
       }
     }, 0);
 
+    const roundedScore = Math.round(score); // Redondear el puntaje
+
     if (userData) {
       const resultData = {
         data: {
           name: 'Prueba Final',
-          grades: score,
+          grades: roundedScore,
           users_permissions_user: userData.id
         }
       };
@@ -249,7 +251,7 @@ const TestPage = () => {
       console.error('Datos del usuario no disponibles');
     }
 
-    navigate('/resultado', { state: { score, questions, answers, examId: testId } });
+    navigate('/resultado', { state: { score: roundedScore, questions, answers, examId: testId } });
   };
 
   const formatTime = (seconds) => {
