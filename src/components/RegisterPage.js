@@ -118,21 +118,20 @@ const RegisterPage = () => {
 
       if (response.ok) {
         // Enviar correo de confirmación
-        const confirmationResponse = await fetch(`${API_BASE_URL}auth/email-confirmation?email=${email}`, {
-          method: 'GET',
-        });
-
-        if (confirmationResponse.ok) {
-          setError('');
-          setRegisterData({ username: '', email: '', password: '', name: '', lastname: '', confirmPassword: '', curso: '' });
-          setSuccessOpen(true);
-          setTimeout(() => {
-            navigate('/login');
-          }, 2000); // Redirige a /login después de 2 segundos
-        } else {
-          setError('Error al enviar el correo de confirmación');
-          setErrorOpen(true);
+        try {
+          await fetch(`${API_BASE_URL}auth/email-confirmation?email=${email}`, {
+            method: 'GET',
+          });
+        } catch (confirmationError) {
+          console.error('Error al enviar el correo de confirmación:', confirmationError);
         }
+        
+        setError('');
+        setRegisterData({ username: '', email: '', password: '', name: '', lastname: '', confirmPassword: '', curso: '' });
+        setSuccessOpen(true);
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000); // Redirige a /login después de 2 segundos
       } else {
         const data = await response.json();
         setError(data.message || 'Error al registrar usuario');
