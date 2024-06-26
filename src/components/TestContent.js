@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Alert from './Alert';
-import HeaderLog from './HeaderLog';
-import Footer from './Footer';
-import Sidebar from './Sidebar';
-import './SharedStyles.css'; // Importar el nuevo CSS compartido
+import './TestPage.css';
+import API_BASE_URL from '../config'; // Importa la URL base desde config.js
 
 const TestPage = () => {
   const [userData, setUserData] = useState(null);
@@ -12,22 +10,13 @@ const TestPage = () => {
   const [answers, setAnswers] = useState([]);
   const [timeLimit, setTimeLimit] = useState(0);
   const [remainingTime, setRemainingTime] = useState(0);
-  const [startTime, setStartTime] = useState(null);
-  const [testActive, setTestActive] = useState(true);
-  const [highestGrade, setHighestGrade] = useState(null);
-  const [contentName, setContentName] = useState('');
   const [alertOpen, setAlertOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { contentId, testId } = useParams();
   const navigate = useNavigate();
   const intervalRef = useRef(null);
+  const testId = window.location.pathname.split('/').pop();
 
   const handleAlertClose = () => {
     setAlertOpen(false);
-  };
-
-  const handleSidebarToggle = () => {
-    setIsSidebarOpen(!isSidebarOpen);
   };
 
   useEffect(() => {
@@ -35,7 +24,7 @@ const TestPage = () => {
       const jwt = localStorage.getItem('jwt');
       if (jwt) {
         try {
-          const response = await fetch('http://localhost:1337/api/users/me?populate=*', {
+          const response = await fetch(`${API_BASE_URL}users/me?populate=*`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -44,13 +33,6 @@ const TestPage = () => {
           if (response.ok) {
             const data = await response.json();
             setUserData(data);
-
-            const results = data.results;
-            const relevantResults = results.filter(result => result.name.includes('Prueba de'));
-            if (relevantResults.length > 0) {
-              const maxGrade = Math.max(...relevantResults.map(result => result.grades));
-              setHighestGrade(maxGrade);
-            }
           } else {
             console.error('Error al obtener los datos del usuario');
           }
@@ -60,52 +42,23 @@ const TestPage = () => {
       }
     };
 
-    const fetchContentName = async () => {
-      const jwt = localStorage.getItem('jwt');
-      if (jwt) {
-        try {
-          const response = await fetch(`http://localhost:1337/api/contents/${contentId}`, {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          });
-          if (response.ok) {
-            const contentData = await response.json();
-            setContentName(contentData.data.attributes.name);
-          } else {
-            console.error('Error al obtener el nombre del contenido');
-          }
-        } catch (error) {
-          console.error('Error de red al obtener el nombre del contenido:', error);
-        }
-      }
-    };
-
     fetchUserData();
-    fetchContentName();
-  }, [contentId]);
+  }, []);
 
   useEffect(() => {
     const fetchTestInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:1337/api/tests/${testId}?populate=*`);
+        const response = await fetch(`${API_BASE_URL}tests/${testId}?populate[questions][populate]=*`);
         if (response.ok) {
           const { data } = await response.json();
           const selectedTest = data;
-          if (selectedTest) {
-            const testQuestions = selectedTest.attributes.questions?.data || [];
-            setQuestions(testQuestions);
-            setAnswers(new Array(testQuestions.length).fill(null).map(() => []));
-            const testTimeLimit = selectedTest.attributes.time || 0;
-            const timeInSeconds = testTimeLimit * 60;
-            setTimeLimit(timeInSeconds);
-            setRemainingTime(timeInSeconds);
-            setStartTime(Date.now());
-            setTestActive(selectedTest.attributes.active);
-          } else {
-            console.error('Test no encontrado');
-          }
+          const testQuestions = selectedTest?.attributes.questions?.data || [];
+          setQuestions(testQuestions);
+          setAnswers(new Array(testQuestions.length).fill(null).map(() => []));
+          const testTimeLimit = selectedTest?.attributes.time || 0;
+          const timeInSeconds = testTimeLimit * 60;
+          setTimeLimit(timeInSeconds);
+          setRemainingTime(timeInSeconds);
         } else {
           console.error('Error al obtener la información del test');
         }
@@ -118,7 +71,7 @@ const TestPage = () => {
   }, [testId]);
 
   useEffect(() => {
-    if (startTime) {
+    if (remainingTime > 0) {
       intervalRef.current = setInterval(() => {
         setRemainingTime(prevTime => {
           if (prevTime <= 1) {
@@ -132,7 +85,7 @@ const TestPage = () => {
 
       return () => clearInterval(intervalRef.current);
     }
-  }, [startTime]);
+  }, [remainingTime]);
 
   useEffect(() => {
     const handleBeforeUnload = (e) => {
@@ -204,32 +157,18 @@ const TestPage = () => {
     const roundedScore = Math.round(score); // Redondear el puntaje
 
     if (userData) {
-      const jwt = localStorage.getItem('jwt');
+      const resultData = {
+        data: {
+          name: 'Prueba Final',
+          grades: roundedScore,
+          users_permissions_user: userData.id
+        }
+      };
 
       try {
-        const contentResponse = await fetch(`http://localhost:1337/api/contents/${contentId}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        });
-
-        if (!contentResponse.ok) {
-          throw new Error('Error al obtener el nombre del contenido');
-        }
-
-        const contentData = await contentResponse.json();
-        const contentName = contentData.data.attributes.name;
-
-        const resultData = {
-          data: {
-            name: `Prueba de '${contentName}'`,
-            grades: roundedScore,
-            users_permissions_user: userData.id
-          }
-        };
-
-        const responseResult = await fetch('http://localhost:1337/api/results', {
+        const jwt = localStorage.getItem('jwt');
+        
+        const responseResult = await fetch(`${API_BASE_URL}results`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -241,50 +180,79 @@ const TestPage = () => {
         if (responseResult.ok) {
           const result = await responseResult.json();
           console.log('Resultado guardado:', result);
+
+          const takenTests = userData.taken_tests || [];
+          let takenTestId = null;
+
+          if (takenTests.length > 0) {
+            takenTestId = takenTests[0].id;
+            const takenTestResponse = await fetch(`${API_BASE_URL}taken-tests/${takenTestId}?populate=*`, {
+              headers: {
+                Authorization: `Bearer ${jwt}`
+              }
+            });
+            const takenTestData = await takenTestResponse.json();
+            const existingTestIds = takenTestData.data.attributes.tests.data.map(test => test.id);
+
+            if (!existingTestIds.includes(parseInt(testId))) {
+              existingTestIds.push(parseInt(testId));
+            }
+
+            const updateData = {
+              data: {
+                user: userData.id,
+                tests: existingTestIds
+              }
+            };
+
+            const updateResponse = await fetch(`${API_BASE_URL}taken-tests/${takenTestId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
+              },
+              body: JSON.stringify(updateData)
+            });
+
+            if (updateResponse.ok) {
+              console.log('Taken-test actualizado');
+            } else {
+              console.error('Error al actualizar el taken-test:', await updateResponse.text());
+            }
+          } else {
+            const createData = {
+              data: {
+                user: userData.id,
+                tests: [parseInt(testId)]
+              }
+            };
+
+            const createResponse = await fetch(`${API_BASE_URL}taken-tests`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
+              },
+              body: JSON.stringify(createData)
+            });
+
+            if (createResponse.ok) {
+              console.log('Taken-test creado');
+            } else {
+              console.error('Error al crear el taken-test:', await createResponse.text());
+            }
+          }
         } else {
           console.error('Error al guardar el resultado');
         }
-
-        const contentUpdateResponse = await fetch(`http://localhost:1337/api/contents/${contentId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${jwt}`
-          },
-          body: JSON.stringify({ data: { comprobado: true } })
-        });
-
-        if (contentUpdateResponse.ok) {
-          const contentUpdateResult = await contentUpdateResponse.json();
-          console.log('Contenido actualizado:', contentUpdateResult);
-        } else {
-          console.error('Error al actualizar el contenido');
-        }
-
-        const testUpdateResponse = await fetch(`http://localhost:1337/api/tests/${testId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${jwt}`
-          },
-          body: JSON.stringify({ data: { active: false } })
-        });
-
-        if (testUpdateResponse.ok) {
-          const testUpdateResult = await testUpdateResponse.json();
-          console.log('Test actualizado:', testUpdateResult);
-        } else {
-          console.error('Error al actualizar el test');
-        }
-
       } catch (error) {
-        console.error('Error de red al guardar el resultado o actualizar el estado del test:', error);
+        console.error('Error de red al guardar el resultado o actualizar el taken-test:', error);
       }
     } else {
       console.error('Datos del usuario no disponibles');
     }
 
-    navigate('/resultado', { state: { score: roundedScore, questions, answers } });
+    navigate('/resultado', { state: { score: roundedScore, questions, answers, examId: testId } });
   };
 
   const formatTime = (seconds) => {
@@ -297,16 +265,16 @@ const TestPage = () => {
     switch (question.attributes.type) {
       case 'single-choice':
         return (
-          <ul className="diagnostico-choices-list">
+          <ul className="final-choices-list">
             {Object.keys(question.attributes.choices).map((choiceKey, choiceIndex) => (
-              <li key={choiceIndex} className="diagnostico-choice-item">
+              <li key={choiceIndex} className="final-choice-item">
                 <input
                   type="radio"
                   name={`question-${index}`}
                   value={choiceIndex}
                   checked={answers[index]?.includes(choiceIndex)}
                   onChange={() => handleAnswerChange(index, choiceIndex, false)}
-                  className="diagnostico-choice-radio"
+                  className="final-choice-radio"
                 />
                 {question.attributes.choices[choiceKey]}
               </li>
@@ -315,16 +283,16 @@ const TestPage = () => {
         );
       case 'multiple-choice':
         return (
-          <ul className="diagnostico-choices-list">
+          <ul className="final-choices-list">
             {Object.keys(question.attributes.choices).map((choiceKey, choiceIndex) => (
-              <li key={choiceIndex} className="diagnostico-choice-item">
+              <li key={choiceIndex} className="final-choice-item">
                 <input
                   type="checkbox"
                   name={`question-${index}`}
                   value={choiceIndex}
                   checked={answers[index]?.includes(choiceIndex)}
                   onChange={() => handleAnswerChange(index, choiceIndex, true)}
-                  className="diagnostico-choice-checkbox"
+                  className="final-choice-checkbox"
                 />
                 {question.attributes.choices[choiceKey]}
               </li>
@@ -333,13 +301,13 @@ const TestPage = () => {
         );
       case 'drag-and-drop':
         return (
-          <div className="diagnostico-drag-and-drop-container">
-            <div className="diagnostico-drag-drop-sentence">
+          <div className="final-drag-and-drop-container">
+            <div className="final-drag-drop-sentence">
               {question.attributes.drag_options.map((option, idx) => (
                 <React.Fragment key={idx}>
                   {option.text_initial && <span>{option.text_initial} </span>}
                   <span 
-                    className="diagnostico-drag-placeholder"
+                    className="final-drag-placeholder"
                     onDrop={(e) => handleDrop(e, index, idx)}
                     onDragOver={allowDrop}
                   >
@@ -349,13 +317,13 @@ const TestPage = () => {
                 </React.Fragment>
               ))}
             </div>
-            <div className="diagnostico-drag-options">
+            <div className="final-drag-options">
               {question.attributes.drag_options.map((option, idx) => (
                 <div
                   key={idx}
                   draggable
                   onDragStart={(e) => handleDragStart(e, option)}
-                  className="diagnostico-drag-option"
+                  className="final-drag-option"
                 >
                   {option.option}
                 </div>
@@ -368,52 +336,35 @@ const TestPage = () => {
     }
   };
 
-  if (!testActive) {
-    return (
-      <div className="diagnostico1-page1">
-        <HeaderLog userData={userData} />
-        <div className={`diagnostico-page-container ${isSidebarOpen ? 'sidebar-open' : ''}`}>
-          <Sidebar isOpen={isSidebarOpen} handleToggle={handleSidebarToggle} />
-          <div className="diagnostico1-content1 diagnostico-result">
-            <p className="diagnostico-result-text">Prueba de '{contentName}' realizada con éxito, su nota es: {highestGrade}.</p>
-            <p className="diagnostico-congratulations-text">¡Felicitaciones por completar la prueba final!</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="diagnostico-page" onClick={() => setAlertOpen(true)}>
-      <div className={`diagnostico-page-container ${isSidebarOpen ? 'sidebar-open' : ''}`}>
-        <div className="diagnostico2-content2">
-          <div className="diagnostico-exam-info">
-            <h1 className="diagnostico-exam-title">Examen Final</h1>
-            <p className="diagnostico-exam-info-text">Prueba Final de contenidos</p>
-            <p className="diagnostico-exam-length-text">La prueba estará evaluada sobre {questions.length}</p>
-          </div>
-          <div className="diagnostico-question-section">
-            <p className="diagnostico-question-instructions">Por favor, seleccione una respuesta para cada pregunta:</p>
-            <div className="diagnostico-questions">
-              {questions.length > 0 ? (
-                questions.map((question, index) => (
-                  <div key={index} className="diagnostico-question-box">
-                    <div className="diagnostico-question-content">
-                      <p className="diagnostico-question-name"><strong>{question.attributes.name}</strong></p>
-                      {renderQuestionContent(question, index)}
-                    </div>
+    <div className="final-page">
+      <div className="final-content1">
+        <div className="exam-info final-exam-info">
+          <h1 className="exam-title final-exam-title">Prueba Final</h1>
+          <p className="exam-info-text final-exam-info-text">Prueba Final de contenidos</p>
+          <p className="exam-length-text final-exam-length-text">La prueba estará evaluada sobre {questions.length}</p>
+        </div>
+        <div className="question-section final-question-section">
+          <p className="question-instructions final-question-instructions">Por favor, seleccione una respuesta para cada pregunta:</p>
+          <div className="questions final-questions">
+            {questions.length > 0 ? (
+              questions.map((question, index) => (
+                <div key={index} className="question-box final-question-box">
+                  <div className="question-content final-question-content">
+                    <p className="question-name final-question-name"><strong>{question.attributes.name}</strong></p>
+                    {renderQuestionContent(question, index)}
                   </div>
-                ))
-              ) : (
-                <p className="diagnostico-no-questions-text">No hay preguntas disponibles.</p>
-              )}
-            </div>
-            {questions.length > 0 && (
-              <div className="finish-exam-button-container">
-                <button className="diagnostico-finish-exam-button" onClick={handleEndExam}>Terminar Examen</button>
-              </div>
+                </div>
+              ))
+            ) : (
+              <p className="no-questions-text final-no-questions-text">No hay preguntas disponibles.</p>
             )}
           </div>
+          {questions.length > 0 && (
+            <div className="finish-exam-button-container">
+              <button className="contenido-clase-button2" onClick={handleEndExam}>Terminar Examen</button>
+            </div>
+          )}
         </div>
       </div>
       <div className="time-modal-container">

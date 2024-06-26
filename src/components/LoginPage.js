@@ -117,8 +117,7 @@ const LoginPage = () => {
                 <button 
                   type="button" 
                   onClick={() => setShowPassword(!showPassword)} 
-                  className="password-toggle-button" 
-                  style={{ backgroundColor: 'transparent', border: 'none' }} // Aplicamos estilo en línea
+                  className="password-toggle-button"
                 >
                   <img src={showPassword ? invisibleIcon : ojoIcon} alt="toggle password visibility" />
                 </button>

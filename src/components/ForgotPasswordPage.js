@@ -32,7 +32,10 @@ const ForgotPasswordPage = ({ resetPasswordUrl }) => {
       const checkUserResponse = await fetch(`${API_BASE_URL}users?filters[email][$eq]=${email}`);
       const userData = await checkUserResponse.json();
 
-      if (userData.data.length === 0) {
+      console.log('userData:', userData); // Registro de depuración
+
+      // Aquí corregimos el chequeo de userData
+      if (!userData || !userData.length) {
         setError('No se encontró ningún usuario con este correo electrónico.');
         setSuccessMessage('');
         return;
@@ -52,6 +55,7 @@ const ForgotPasswordPage = ({ resetPasswordUrl }) => {
         setError('');
       } else {
         const data = await response.json();
+        console.log('Error response data:', data); // Registro de depuración
         setError(data.message || 'Error al enviar el correo electrónico');
         setSuccessMessage('');
       }

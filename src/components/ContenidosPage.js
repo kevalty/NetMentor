@@ -20,7 +20,7 @@ const ContenidosPage = () => {
 
       try {
         // Fetch user data
-        const userResponse = await fetch(`${API_BASE_URL}users/me`, {
+        const userResponse = await fetch(`${API_BASE_URL}users/me?populate=*`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -35,8 +35,8 @@ const ContenidosPage = () => {
         const userData = await userResponse.json();
         setUserData(userData);
 
-        // Fetch contents
-        const contentsResponse = await fetch(`${API_BASE_URL}contents`);
+        // Fetch contents with populated data
+        const contentsResponse = await fetch(`${API_BASE_URL}contents?populate=*`);
         if (!contentsResponse.ok) {
           console.error('Error al obtener los contenidos');
           return;
@@ -45,7 +45,7 @@ const ContenidosPage = () => {
         const contentsData = await contentsResponse.json();
         console.log('Datos de contenidos:', contentsData.data);
 
-        // Fetch introductions for each content
+        // Fetch introductions and check if user has taken the test for each content
         const contentsWithIntroductions = await Promise.all(
           contentsData.data.map(async (content) => {
             const introResponse = await fetch(`${API_BASE_URL}introductions?filters[content]=${content.id}`);
@@ -53,11 +53,23 @@ const ContenidosPage = () => {
               const introData = await introResponse.json();
               content.introduction = introData.data.length > 0 ? introData.data[0] : null;
             }
+
+            // Check if user has taken the test for this content
+            const takenTestsResponse = await fetch(`${API_BASE_URL}taken-tests?populate=*`);
+            if (takenTestsResponse.ok) {
+              const takenTestsData = await takenTestsResponse.json();
+              const userTakenTests = takenTestsData.data.filter(test => test.attributes.user.data.id === userData.id);
+              content.attributes.comprobado = userTakenTests.some(test => test.attributes.tests.data.some(t => t.id === content.id));
+            }
+
             return content;
           })
         );
 
-        setContents(contentsWithIntroductions);
+        // Ordenar contenidos por ID
+        const sortedContents = contentsWithIntroductions.sort((a, b) => a.id - b.id);
+
+        setContents(sortedContents);
       } catch (error) {
         console.error('Error de red:', error);
       }
