@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Alert from './Alert';
+import HeaderLog from './HeaderLog';
+import Sidebar from './Sidebar';
 import './TestPage.css';
 import API_BASE_URL from '../config'; // Importa la URL base desde config.js
 
@@ -11,12 +13,20 @@ const TestPage = () => {
   const [timeLimit, setTimeLimit] = useState(0);
   const [remainingTime, setRemainingTime] = useState(0);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [testAlreadyTaken, setTestAlreadyTaken] = useState(false);
+  const [highestGrade, setHighestGrade] = useState(null);
+  const [contentName, setContentName] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const intervalRef = useRef(null);
-  const testId = window.location.pathname.split('/').pop();
+  const { testId, contentId } = useParams();
 
   const handleAlertClose = () => {
     setAlertOpen(false);
+  };
+
+  const handleSidebarToggle = () => {
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   useEffect(() => {
@@ -33,6 +43,35 @@ const TestPage = () => {
           if (response.ok) {
             const data = await response.json();
             setUserData(data);
+
+            // Check if the user has already taken this test
+            const takenTestsResponse = await fetch(`${API_BASE_URL}taken-tests?populate=*`, {
+              headers: {
+                Authorization: `Bearer ${jwt}`
+              }
+            });
+            const takenTestsData = await takenTestsResponse.json();
+            const userTakenTests = takenTestsData.data.filter(test => test.attributes.user.data.id === data.id);
+
+            const hasTakenTest = userTakenTests.some(test => test.attributes.tests.data.some(t => t.id === parseInt(testId)));
+
+            if (hasTakenTest) {
+              setTestAlreadyTaken(true);
+
+              // Get the highest grade for this test
+              const resultsResponse = await fetch(`${API_BASE_URL}results?filters[users_permissions_user][id][$eq]=${data.id}&filters[tests][id][$eq]=${testId}`, {
+                headers: {
+                  Authorization: `Bearer ${jwt}`
+                }
+              });
+              const resultsData = await resultsResponse.json();
+              if (resultsData.data.length > 0) {
+                const maxGrade = Math.max(...resultsData.data.map(result => result.attributes.grades));
+                setHighestGrade(maxGrade);
+              }
+            } else {
+              setTestAlreadyTaken(false);
+            }
           } else {
             console.error('Error al obtener los datos del usuario');
           }
@@ -43,7 +82,7 @@ const TestPage = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [testId]);
 
   useEffect(() => {
     const fetchTestInfo = async () => {
@@ -59,6 +98,15 @@ const TestPage = () => {
           const timeInSeconds = testTimeLimit * 60;
           setTimeLimit(timeInSeconds);
           setRemainingTime(timeInSeconds);
+
+          // Fetch the content name
+          const contentResponse = await fetch(`${API_BASE_URL}contents/${contentId}`);
+          if (contentResponse.ok) {
+            const contentData = await contentResponse.json();
+            setContentName(contentData.data.attributes.name);
+          } else {
+            console.error('Error al obtener el nombre del contenido');
+          }
         } else {
           console.error('Error al obtener la información del test');
         }
@@ -67,8 +115,10 @@ const TestPage = () => {
       }
     };
 
-    fetchTestInfo();
-  }, [testId]);
+    if (!testAlreadyTaken) {
+      fetchTestInfo();
+    }
+  }, [testId, testAlreadyTaken]);
 
   useEffect(() => {
     if (remainingTime > 0) {
@@ -159,7 +209,7 @@ const TestPage = () => {
     if (userData) {
       const resultData = {
         data: {
-          name: 'Prueba Final',
+          name: `Prueba de ${contentName}`,
           grades: roundedScore,
           users_permissions_user: userData.id
         }
@@ -336,11 +386,29 @@ const TestPage = () => {
     }
   };
 
+  if (testAlreadyTaken) {
+    return (
+      <div className="final-page">
+        <HeaderLog userData={userData} />
+        <Sidebar isOpen={isSidebarOpen} handleToggle={handleSidebarToggle} />
+        <div className="final-content1">
+          <div className="exam-info final-exam-info">
+            <h1 className="exam-title final-exam-title">Prueba de {contentName}</h1>
+            <p className="exam-info-text final-exam-info-text">Ya has realizado esta prueba.</p>
+            {highestGrade !== null && (
+              <p className="exam-length-text final-exam-length-text">Tu calificación más alta fue: {highestGrade}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="final-page">
       <div className="final-content1">
         <div className="exam-info final-exam-info">
-          <h1 className="exam-title final-exam-title">Prueba Final</h1>
+          <h1 className="exam-title final-exam-title">Prueba de {contentName}</h1>
           <p className="exam-info-text final-exam-info-text">Prueba Final de contenidos</p>
           <p className="exam-length-text final-exam-length-text">La prueba estará evaluada sobre {questions.length}</p>
         </div>

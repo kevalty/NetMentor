@@ -39,7 +39,7 @@ const HomePage = () => {
           <div className="column new-content">
             <img className="imagenes" src={imagen2} alt="Imagen 2" />
             <h3>Aprendizaje personalizado</h3>
-            <p>Contenido de confianza Creado por expertos, la biblioteca de ejercicios y lecciones de NetMentor cubre matemáticas, ciencias y más. Y siempre es gratis para estudiantes y maestros.</p>
+            <p>Contenido de confianza Creado por expertos, la biblioteca de ejercicios y lecciones de NetMentor cubre reded de computadores. Y siempre es gratis para estudiantes y maestros.</p>
           </div>
           <div className="column new-content">
             <img className="imagenes" src={imagen3} alt="Imagen 3" />
