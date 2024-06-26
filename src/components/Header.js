@@ -9,7 +9,7 @@ const Header = () => {
       <div className="title">
         {/* Utiliza NavLink en lugar de un <span> */}
         <img className="logo" src={imagen1} alt="Logo NetMentor"></img>
-        <NavLink exact to="/" className="t1" activeClassName="active">NetMentorre</NavLink>
+        <NavLink exact to="/" className="t1" activeClassName="active">NetMentor</NavLink>
       </div>
       <nav className="nav">
         <NavLink to="/login" className="link">Iniciar Sesión</NavLink>
