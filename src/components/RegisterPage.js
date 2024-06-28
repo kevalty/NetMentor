@@ -206,9 +206,13 @@ const RegisterPage = () => {
                 />
               </div>
               {isPasswordFocused && (
-                <div className="password-help-text">
-                  Las contraseñas deben contener: Al menos una mayúscula, un número y 8 caracteres
-                </div>
+                <div className="password-requirements">
+                <ul>
+                  <li>Al menos una mayúscula</li>
+                  <li>Al menos un número</li>
+                  <li>Mínimo 8 caracteres</li>
+                </ul>
+              </div>
               )}
               <div className="password-input-container">
                 <button

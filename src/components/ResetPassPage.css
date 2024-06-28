@@ -1,4 +1,7 @@
-/* ResetPassPage.css */
+body, h2, h3, p, a, button, ul, li {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 .reset-pass-container {
   flex-direction: column;
   justify-content: center;
@@ -6,23 +9,49 @@
   min-height: 100vh;
 }
 
-body, h2, p, a, button, ul, li {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.reset-pass-content {
+  display: flex;
+  width: 80%;
+  max-width: 900px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  margin-top: 100px;
+  margin-left: 20%;
 }
 
-.reset-pass-content {
-  width: 50%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-left: 25%;
-  margin-top: 9%;
+.reset-pass-left {
+  background-color: #052D49;
+  color: white;
+  padding: 40px;
+  flex: 1;
+}
+
+.reset-pass-left h2 {
+  font-size: 24px;
+  color: #007bff;
+}
+
+.reset-pass-left p {
+  font-size: 16px;
+  color: white;
+}
+
+.reset-pass-right {
+  background-color: white;
+  padding: 40px;
+  flex: 1;
+}
+
+.reset-pass-right h3 {
+  font-size: 20px;
+  color: #333;
 }
 
 .reset-pass-form label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .reset-pass-form input {
@@ -34,15 +63,23 @@ body, h2, p, a, button, ul, li {
   outline: none;
 }
 
+.reset-pass-form input:focus {
+  border-color: #007bff;
+}
+
+.reset-pass-form input.valid {
+  border-color: green;
+}
+
 .reset-pass-form button {
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
 }
 
 .reset-pass-form button:hover {
@@ -57,10 +94,34 @@ body, h2, p, a, button, ul, li {
   margin-top: 10px;
 }
 
+.password-requirements {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.password-requirements ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.password-requirements li {
+  margin-bottom: 5px;
+}
+
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .reset-pass-content {
+    flex-direction: column;
     width: 90%;
+  }
+
+  .reset-pass-left, .reset-pass-right {
     padding: 20px;
   }
 }

@@ -18,6 +18,7 @@ const ResetPass = () => {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState('success');
+  const [showRequirements, setShowRequirements] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const [resetCode, setResetCode] = useState('');
@@ -38,7 +39,12 @@ const ResetPass = () => {
   const validatePassword = () => {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
-    return hasUpperCase && hasNumber;
+    const isValidLength = password.length >= 8;
+    return hasUpperCase && hasNumber && isValidLength;
+  };
+
+  const passwordsMatch = () => {
+    return password === confirmPassword;
   };
 
   const handleSubmit = async (e) => {
@@ -47,13 +53,13 @@ const ResetPass = () => {
     setMessage('');
 
     if (!validatePassword()) {
-      setError('La contraseña debe tener al menos una mayúscula y un número.');
+      setError('La contraseña debe tener al menos una mayúscula, un número y mínimo 8 caracteres.');
       setSeverity('error');
       setOpen(true);
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (!passwordsMatch()) {
       setError('Las contraseñas no coinciden.');
       setSeverity('error');
       setOpen(true);
@@ -86,6 +92,22 @@ const ResetPass = () => {
     }
   };
 
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const handleFocus = () => {
+    setShowRequirements(true);
+  };
+
+  const handleBlur = () => {
+    setShowRequirements(false);
+  };
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -97,26 +119,45 @@ const ResetPass = () => {
     <div className="reset-pass-container">
       <Header />
       <div className="reset-pass-content">
-        <h2>Restablecer Contraseña</h2>
-        <form className="reset-pass-form" onSubmit={handleSubmit}>
-          <label htmlFor="password">Nueva Contraseña</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <label htmlFor="confirmPassword">Confirmar Nueva Contraseña</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          <button type="submit">Restablecer Contraseña</button>
-        </form>
+        <div className="reset-pass-left">
+          <h2>Restablecer tu contraseña</h2>
+          <p>Escoge una nueva contraseña y regresa a aprender. Por seguridad, selecciona una contraseña que no hayas usado.</p>
+        </div>
+        <div className="reset-pass-right">
+          <h3>Crear una contraseña nueva</h3>
+          <form className="reset-pass-form" onSubmit={handleSubmit}>
+            <label htmlFor="password">Nueva Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              className={validatePassword() ? 'valid' : ''}
+              required
+            />
+            {showRequirements && (
+              <div className="password-requirements">
+                <ul>
+                  <li>Al menos una mayúscula</li>
+                  <li>Al menos un número</li>
+                  <li>Mínimo 8 caracteres</li>
+                </ul>
+              </div>
+            )}
+            <label htmlFor="confirmPassword">Confirmar Nueva Contraseña</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              className={passwordsMatch() ? 'valid' : ''}
+              required
+            />
+            <button type="submit">Restablecer Contraseña</button>
+          </form>
+        </div>
       </div>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
