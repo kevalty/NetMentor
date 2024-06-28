@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from './HeaderLog';
 import Footer from './Footer';
 import Alert from './Alert';
-import Sidebar from './Sidebar';
+import Sidebar from './Sidebar21';
 import './ExamenFinalPage.css';
 import API_BASE_URL from '../config'; // Importa la URL base desde config.js
 

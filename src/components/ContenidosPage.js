@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './HeaderLog';
 import Footer from './Footer';
-import Sidebar from './Sidebar';
+import Sidebar from './Sidebar21';
 import './ContenidoClasePage.css'; // Renombrar a ContenidosPage.css para ser más específico
 import comprobadoIcon from '../assets/comprobado.png'; // Importa el icono de comprobado
 import API_BASE_URL from '../config'; // Importa la URL base desde config.js

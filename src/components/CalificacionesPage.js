@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-modal';
 import Header from './HeaderLog';
-import Sidebar from './Sidebar';
+import Sidebar from './Sidebar21';
 import ProgressChart from './ProgressChart'; // Importa el componente del gráfico
 import './CalificacionesPage.css';
 import API_BASE_URL from '../config'; // Importa la URL base desde config.js

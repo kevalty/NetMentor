@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './HeaderLog';
-import Sidebar from './Sidebar';
+import Sidebar from './Sidebar21';
 import './ProfilePage.css';
 import API_BASE_URL from '../config';
 
