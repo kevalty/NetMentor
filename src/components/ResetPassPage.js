@@ -1,128 +1,88 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import API_BASE_URL from '../config'; // Importa la URL base desde config.js
+import Header from './HeaderLog';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import Header from './Header';
-import Footer from './Footer';
-import './RegisterPage.css';
-import imagen1 from '../assets/Inicio1.png';
-import ojoIcon from '../assets/ojo.png';
-import invisibleIcon from '../assets/invisible.png';
-import RegisterIcon from '../assets/registerIcon.png';
-import API_BASE_URL from '../config'; // Importa la URL base desde config.js
+import './ResetPassPage.css';
 
-const RegisterPage = () => {
-  const navigate = useNavigate();
-  const [registerData, setRegisterData] = useState({ username: '', email: '', password: '', name: '', lastname: '', confirmPassword: '', curso: '' });
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const ResetPass = () => {
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [successOpen, setSuccessOpen] = useState(false);
-  const [errorOpen, setErrorOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [emptyFields, setEmptyFields] = useState([]);
-  const [cursos, setCursos] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState('success');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [resetCode, setResetCode] = useState('');
 
   useEffect(() => {
-    // Cargar los cursos desde la API
-    const fetchCursos = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}cursos`);
-        const result = await response.json();
-        setCursos(result.data);
-      } catch (error) {
-        console.error('Error al cargar los cursos:', error);
-      }
-    };
-    fetchCursos();
-  }, []);
-
-  const handleRegisterChange = e => {
-    const { name, value } = e.target;
-    setRegisterData(prevState => ({ ...prevState, [name]: value }));
-
-    // Remover el campo vacío de la lista de campos vacíos si se ha llenado
-    if (emptyFields.includes(name)) {
-      setEmptyFields(emptyFields.filter(field => field !== name));
+    const queryParams = new URLSearchParams(location.search);
+    const code = queryParams.get('code');
+    console.log('Código de restablecimiento recibido:', code); // Para depuración
+    if (code) {
+      setResetCode(code);
+    } else {
+      setError('Token no encontrado. Por favor, use el enlace de restablecimiento correcto.');
+      setSeverity('error');
+      setOpen(true);
     }
+  }, [location.search]);
+
+  const validatePassword = () => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    return hasUpperCase && hasNumber;
   };
 
-  const handleRegisterSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, email, password, name, lastname, confirmPassword, curso } = registerData;
+    setError('');
+    setMessage('');
 
-    // Verificar campos vacíos
-    const empty = [];
-    if (!username) empty.push('username');
-    if (!email) empty.push('email');
-    if (!password) empty.push('password');
-    if (!name) empty.push('name');
-    if (!lastname) empty.push('lastname');
-    if (!confirmPassword) empty.push('confirmPassword');
-    if (!curso) empty.push('curso');
-    setEmptyFields(empty);
-
-    if (empty.length > 0) {
-      setError('Todos los campos son requeridos');
-      setErrorOpen(true);
-      return;
-    }
-
-    // Verificar formato de correo electrónico
-    if (!isValidEmail(email)) {
-      setError('El formato del correo electrónico es inválido');
-      setErrorOpen(true);
+    if (!validatePassword()) {
+      setError('La contraseña debe tener al menos una mayúscula y un número.');
+      setSeverity('error');
+      setOpen(true);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
-      setErrorOpen(true);
+      setError('Las contraseñas no coinciden.');
+      setSeverity('error');
+      setOpen(true);
       return;
     }
 
     try {
-      // Verificar si el nombre de usuario ya existe
-      const checkUsernameResponse = await fetch(`${API_BASE_URL}users?username=${username}`);
-      if (!checkUsernameResponse.ok) {
-        throw new Error('Error al verificar el nombre de usuario');
-      }
-      const userData = await checkUsernameResponse.json();
-
-      // Buscar si hay algún usuario con el mismo nombre de usuario
-      const existingUser = userData.find(user => user.username === username);
-      if (existingUser) {
-        setError('El nombre de usuario ya está en uso');
-        setErrorOpen(true);
-        return;
-      }
-
-      const dataWithRole = { ...registerData, role: 3 };
-
-      const response = await fetch(`${API_BASE_URL}users`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataWithRole),
+      console.log('Enviando datos:', {
+        code: resetCode,
+        password,
+        passwordConfirmation: confirmPassword,
       });
 
-      if (response.ok) {
-        setError('');
-        setRegisterData({ username: '', email: '', password: '', name: '', lastname: '', confirmPassword: '', curso: '' });
-        setSuccessOpen(true);
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000); // Redirige a /login después de 3 segundos
-      } else {
-        const data = await response.json();
-        setError(data.message || 'Error al registrar usuario');
-        setErrorOpen(true);
-      }
-    } catch (error) {
-      console.error('Error al registrar usuario:', error);
-      setError('Error al registrar usuario');
-      setRegisterData({ username: '', email: '', password: '', name: '', lastname: '', confirmPassword: '', curso: '' });
-      setErrorOpen(true);
+      const response = await axios.post(`${API_BASE_URL}auth/reset-password`, {
+        code: resetCode,
+        password,
+        passwordConfirmation: confirmPassword,
+      });
+
+      console.log('Respuesta del servidor:', response.data);
+      setMessage("Contraseña restablecida con éxito.");
+      setSeverity('success');
+      setOpen(true);
+      setTimeout(() => navigate('/login'), 3000); // Redirigir después de 3 segundos
+    } catch (err) {
+      console.error('Error al restablecer la contraseña:', err.response ? err.response.data : err.message);
+      setError(err.response ? err.response.data.message : 'Error al restablecer la contraseña. Por favor, inténtelo de nuevo.');
+      setSeverity('error');
+      setOpen(true);
     }
   };
 
@@ -130,109 +90,41 @@ const RegisterPage = () => {
     if (reason === 'clickaway') {
       return;
     }
-    setErrorOpen(false);
-    setSuccessOpen(false);
+    setOpen(false);
   };
 
-  const isValidEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isValidPassword = password => /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
-
   return (
-    <div>
+    <div className="reset-pass-container">
       <Header />
-      <div className="register-page-specific">
-        <section className='section1'>
-          <form onSubmit={handleRegisterSubmit} className="register-form">
-            <h2>Registrarse</h2>
-            <div className="input-container"></div>
-            <div className="input-container">
-              <input type="text" name="name" value={registerData.name} onChange={handleRegisterChange} placeholder="Nombre" required/>
-              <input type="text" name="lastname" value={registerData.lastname} onChange={handleRegisterChange} placeholder="Apellido" required/>
-              <input type="text" name="username" value={registerData.username} onChange={handleRegisterChange} placeholder="Nombre de Usuario" required />
-              <input
-                type="email"
-                name="email"
-                value={registerData.email}
-                onChange={handleRegisterChange}
-                placeholder="Correo Electrónico"
-                style={{ borderColor: registerData.email ? (isValidEmail(registerData.email) ? 'green' : 'red') : '' }}
-                required
-              />
-              <input
-                required
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={registerData.password}
-                onChange={handleRegisterChange}
-                placeholder="Contraseña"
-                style={{ borderColor: registerData.password ? (isValidPassword(registerData.password) ? 'green' : 'red') : '' }}
-              />
-              <input
-                required
-                type={showConfirmPassword ? "text" : "password"}
-                name="confirmPassword"
-                value={registerData.confirmPassword}
-                onChange={handleRegisterChange}
-                placeholder="Confirmar Contraseña"
-                style={{ borderColor: registerData.confirmPassword && registerData.confirmPassword === registerData.password ? 'green' : '' }}
-              />
-              <select
-                 name="curso"
-                 value={registerData.curso}
-                 onChange={handleRegisterChange}
-                 className="custom-select"
-                 required
-               >
-                 <option value="" disabled>Seleccione un curso</option>
-                 {cursos.map(curso => (
-                   <option key={curso.id} value={curso.id}>{curso.attributes.curso}</option>
-                 ))}
-               </select>
-             </div>
-             <span style={{ color: 'gray', fontSize: '12px', marginLeft: '5px', marginBottom: '15px' }}>
-               Las contraseñas deben contener: Al menos una mayúscula, un número y 8 caracteres
-             </span>
-             <div className="input-container">
-               <button
-                 type="button"
-                 onClick={() => setShowPassword(!showPassword)}
-                 className="password-toggle-button-primary"
-                 style={{ backgroundColor: 'transparent', border: 'none' }}
-               >
-                 <img src={showPassword ? invisibleIcon : ojoIcon} alt="toggle password visibility" />
-               </button>
-               <button
-                 type="button"
-                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                 className="password-toggle-button-secondary"
-                 style={{ backgroundColor: 'transparent', border: 'none' }}
-               >
-                 <img src={showConfirmPassword ? invisibleIcon : ojoIcon} alt="toggle password visibility" />
-               </button>
-             </div>
-             <button type="submit" className="login-button">
-               <img src={RegisterIcon} alt="login" />
-             </button>
-           </form>
-         </section>
-         <section className='section2'>
-           <div className='derecha'>
-             <h1 className='text1'></h1>
-           </div>
-         </section>
-         <Snackbar open={successOpen} autoHideDuration={6000} onClose={handleClose}>
-           <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="success">
-             ¡Registro exitoso!
-           </MuiAlert>
-         </Snackbar>
-         <Snackbar open={errorOpen} autoHideDuration={6000} onClose={handleClose}>
-           <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="error">
-             {error}
-           </MuiAlert>
-         </Snackbar>
-       </div>
-     </div>
-   );
- };
- 
- export default RegisterPage;
+      <div className="reset-pass-content">
+        <h2>Restablecer Contraseña</h2>
+        <form className="reset-pass-form" onSubmit={handleSubmit}>
+          <label htmlFor="password">Nueva Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <label htmlFor="confirmPassword">Confirmar Nueva Contraseña</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Restablecer Contraseña</button>
+        </form>
+      </div>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+          {error || message}
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+};
+
+export default ResetPass;

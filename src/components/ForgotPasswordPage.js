@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import Header from './HeaderLog';
-import Footer from './Footer';
+import Header from './Header';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import './ForgotPasswordPage.css';
+import logo from '../assets/logo.png'; // Asegúrate de tener el logo en esta ruta
 import API_BASE_URL from '../config'; // Importa la URL base desde config.js
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const ForgotPasswordPage = ({ resetPasswordUrl }) => {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success');
+  const [open, setOpen] = useState(false);
 
   const handleEmailChange = e => {
     setEmail(e.target.value);
@@ -22,48 +29,53 @@ const ForgotPasswordPage = ({ resetPasswordUrl }) => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
-      setError('Correo electrónico no es válido.');
-      setSuccessMessage('');
+      setAlertMessage('Correo electrónico no es válido.');
+      setAlertSeverity('error');
+      setOpen(true);
       return;
     }
 
     try {
-      // Verificar si el usuario existe con el correo electrónico proporcionado
       const checkUserResponse = await fetch(`${API_BASE_URL}users?filters[email][$eq]=${email}`);
       const userData = await checkUserResponse.json();
 
-      console.log('userData:', userData); // Registro de depuración
-
-      // Aquí corregimos el chequeo de userData
       if (!userData || !userData.length) {
-        setError('No se encontró ningún usuario con este correo electrónico.');
-        setSuccessMessage('');
+        setAlertMessage('No se encontró ningún usuario con este correo electrónico.');
+        setAlertSeverity('error');
+        setOpen(true);
         return;
       }
 
-      // Si se encuentra el usuario, enviar la solicitud para restablecer la contraseña
       const response = await fetch(`${API_BASE_URL}auth/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, URL: resetPasswordUrl }), // Pasar la URL base al servidor Strapi
+        body: JSON.stringify({ email, URL: resetPasswordUrl }),
       });
 
       if (response.ok) {
-        setSuccessMessage('Se ha enviado un correo electrónico con instrucciones para restablecer tu contraseña.');
-        setError('');
+        setAlertMessage('Se ha enviado un correo electrónico con instrucciones para restablecer tu contraseña.');
+        setAlertSeverity('success');
+        setOpen(true);
       } else {
         const data = await response.json();
-        console.log('Error response data:', data); // Registro de depuración
-        setError(data.message || 'Error al enviar el correo electrónico');
-        setSuccessMessage('');
+        setAlertMessage(data.message || 'Error al enviar el correo electrónico');
+        setAlertSeverity('error');
+        setOpen(true);
       }
     } catch (error) {
-      console.error('Error al enviar el correo electrónico:', error);
-      setError('Error al enviar el correo electrónico, correo no encontrado ');
-      setSuccessMessage('');
+      setAlertMessage('Error al enviar el correo electrónico, correo no encontrado');
+      setAlertSeverity('error');
+      setOpen(true);
     }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
   };
 
   return (
@@ -71,16 +83,20 @@ const ForgotPasswordPage = ({ resetPasswordUrl }) => {
       <Header />
       <div className="forgot-password-content">
         <div className="forgot-password-form">
-          <h2>Recuperar Contraseña</h2>
+          <div className="form-header">
+            <h2>Correo electrónico</h2>
+            <img src={logo} alt="Logo" className="logo"/>
+          </div>
+          <p>Escribe tu correo electrónico para restablecer tu contraseña:</p>
           <form onSubmit={handleSubmit}>
-            <label>
-              Correo Electrónico:
-              <input type="email" value={email} onChange={handleEmailChange} />
-            </label>
-            <button type="submit">Enviar Correo Electrónico</button>
+            <input type="email" value={email} onChange={handleEmailChange} />
+            <button type="submit" className="reset-button" disabled={!email}>Restablece tu contraseña</button>
           </form>
-          {error && <p>{error}</p>}
-          {successMessage && <p className="success">{successMessage}</p>}
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={alertSeverity}>
+              {alertMessage}
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     </div>

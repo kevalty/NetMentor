@@ -45,11 +45,12 @@ body, h2, p, a, button, ul, li {
 }
 
 .column.left .diamond-image {
-  width: 200px;
-  height: 200px;
-  background-image: url('../assets/logo.png');
+  width: 400px;
+  height: 400px;
+  background-image: url('../assets/Img2.png');
   background-size: cover;
   background-position: center;
+  margin-top: -30px;
 }
 
 .column:nth-child(2) {

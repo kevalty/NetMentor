@@ -21,7 +21,7 @@ const HomePage = () => {
           </div>
           <div className="column">
             <h2>Conectando el mundo, un bit a la vez</h2>
-            <p>¡Bienvenido a nuestra aplicación sobre redes de computadoras! Aquí encontrarás todo lo que necesitas saber para comprender y gestionar redes de manera eficiente. Desde conceptos básicos hasta tecnologías avanzadas, estamos aquí para guiarte en tu viaje por el mundo de las redes. Descubre información útil, consejos prácticos y herramientas útiles para optimizar el rendimiento de tus redes. ¡Con nuestra aplicación, dominar las redes de computadoras nunca ha sido tan fácil y emocionante!</p>
+            <p>¡Bienvenidos y bienvenidas a nuestra aplicación para aprender Redes de Computadores! Aquí encontrarás todo lo que necesitas saber para dominar este fascinante campo de manera efectiva. Desde conceptos básicos hasta tecnologías avanzadas, estamos aquí para guiarte en tu viaje por el mundo de las Redes. Descubre material didáctico, videos interactivos, actividades de refuerzo, y recursos adicionales para optimizar tu aprendizaje. Con nuestra aplicación, aprender sobre Redes de Computadoras nunca ha sido tan fácil y emocionante. ¡Empieza tu aventura educativa hoy mismo!</p>
           </div>
         </section>
       </div>
