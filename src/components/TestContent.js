@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Alert from './Alert';
 import HeaderLog from './HeaderLog';
-import Sidebar from './Sidebar21';
+import Sidebar from './Sidebar';
 import './TestPage.css';
 import API_BASE_URL from '../config'; // Importa la URL base desde config.js
 

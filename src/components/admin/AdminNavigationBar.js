@@ -1,5 +1,5 @@
 import React from 'react';
-import './sidebar.css';
+import './sidebarAdmin.css';
 import 'boxicons';
 import imagen1 from '../../assets/logo.png';
 import { Link, useNavigate } from 'react-router-dom';

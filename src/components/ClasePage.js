@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from './HeaderLog';
-import Sidebar from './Sidebar21';
+import Sidebar from './Sidebar';
 import Alert from './Alert';
 import './ClasePage.css';
 import comprobadoIcon from '../assets/comprobado.png';

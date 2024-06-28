@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './HeaderLog';
-import Sidebar from './Sidebar21';
+import Sidebar from './Sidebar';
 import './ResultadoPage.css';
 import API_BASE_URL from '../config';
 import jsPDF from 'jspdf';
