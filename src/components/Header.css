@@ -12,7 +12,7 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-body, h2, p, a, button, ul, li{
+body, h2, p, a, button, ul, li, span{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .netmentor-header .link {
@@ -63,13 +63,15 @@ body, h2, p, a, button, ul, li{
 
 .netmentor-header .name {
   position: relative;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .netmentor-header .dropdown-menu {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #fff;
+  background-color: #c7e2f6;
+  color: #fff;
   border: 1px solid #ddd;
   border-top: none;
   border-radius: 4px;
@@ -82,14 +84,9 @@ body, h2, p, a, button, ul, li{
 }
 
 .netmentor-header .dropdown-item {
-  color: #333;
+  color: #2b4b7d;
   text-decoration: none;
   padding: 0.5rem;
   transition: background-color 0.3s ease;
-  font-family: inherit; /* Hereda la fuente de .dropdown-menu */
-
-}
-
-.netmentor-header .dropdown-item:hover {
-  background-color: #f5f5f5;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }

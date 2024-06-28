@@ -48,15 +48,15 @@ const ContenidoClasePage = () => {
       <div className='contenido-clase-content2'>
         <div className="contenido-clase-box2">
           <div className="contenido-clase-inner-content2">
-            <h1 className="contenido-clase-title2">Bienvenido a Redes de Computadoras </h1>
+            <h1 className="contenido-clase-title2">Bienvenida/o a Redes de Computadores </h1>
             <p className="contenido-clase-description2">
-              Esta página ofrece una introducción a Redes de Computadores, sera tu guia para comprender de mejor manera esta materia, suerte!!!
+              Esta página ofrece una recopilacion de los contenidos mas esenciales de Redes de Computadores y será tu guia para comprender de mejor manera esta materia. ¡Suerte!
             </p>
             
             
 
             <button className="contenido-clase-button2" onClick={() => navigate('/contents')}>
-              Comenzar Curso
+              Comenzar curso
             </button>
           </div>
         </div>
