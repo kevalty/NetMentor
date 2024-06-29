@@ -56,15 +56,18 @@ const ResultadoPage = () => {
   const generateCertificate = () => {
     if (userData && userData.name && userData.lastname) {
       const doc = new jsPDF('landscape');
-      
-      // Agregar fondo (reemplaza 'logoUrl' con la URL de tu imagen de fondo)
-      const logoUrl = 'https://i.imgur.com/RvbZnq2.png'; // URL de tu imagen de fondo
+
+      const logoUrl = 'https://i.imgur.com/KWlw7b1.png';
       doc.addImage(logoUrl, 'PNG', 0, 0, 297, 210);
 
-      // Agregar nombre del usuario en el lugar adecuado
       doc.setFontSize(36);
-      doc.setTextColor(50, 50, 50); // Color negro plomo
-      doc.text(`${userData.name.toUpperCase()} ${userData.lastname.toUpperCase()}`, 148.5, 135, { align: 'center' });
+      doc.setTextColor(50, 50, 50);
+      doc.text(
+        `${userData.name.toUpperCase()} ${userData.lastname.toUpperCase()}`,
+        148.5,
+        135,
+        { align: 'center' }
+      );
 
       doc.save('certificado.pdf');
     } else {
@@ -166,8 +169,8 @@ const ResultadoPage = () => {
               Certificado
             </button>
           )}
-          {!isEligibleForCertificate && (
-            <p>No eligible for certificate</p>
+          {examId === 1 && !isEligibleForCertificate && (
+            <p>No eres elegible para certificado</p>
           )}
         </div>
       </div>
