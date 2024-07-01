@@ -70,6 +70,7 @@ body, h2, p, a, button, ul, li {
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
   font-size: 16px;
+  margin: 10px;
 }
 
 .contenido-clase-button3:hover {
@@ -144,4 +145,36 @@ body, h2, p, a, button, ul, li {
     width: 100%;
     margin: 10px 0;
   }
+}
+/* ProfilePage.css */
+
+.delete-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.delete-modal-content h2 {
+  margin-bottom: 10px;
+}
+
+.delete-modal-content p {
+  margin-bottom: 20px;
+}
+
+.delete-modal-content button {
+  margin: 5px;
 }

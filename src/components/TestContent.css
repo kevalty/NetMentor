@@ -191,3 +191,37 @@ body, h1, h2, p, a, button, ul, li {
     padding: 10px 20px;
   }
 }
+/* TestPage.css */
+
+.end-exam-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegurar que el modal esté en primer plano */
+}
+
+.end-exam-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 1001; /* Asegurar que el contenido del modal esté en primer plano */
+}
+
+.end-exam-modal-content h2 {
+  margin-bottom: 10px;
+}
+
+.end-exam-modal-content p {
+  margin-bottom: 20px;
+}
+
+.end-exam-modal-content button {
+  margin: 5px;
+}

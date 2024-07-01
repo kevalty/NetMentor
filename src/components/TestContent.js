@@ -17,6 +17,7 @@ const TestPage = () => {
   const [highestGrade, setHighestGrade] = useState(null);
   const [contentName, setContentName] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isEndExamModalOpen, setIsEndExamModalOpen] = useState(false); // Estado para el modal de finalización del examen
   const navigate = useNavigate();
   const intervalRef = useRef(null);
   const { testId, contentId } = useParams();
@@ -386,6 +387,19 @@ const TestPage = () => {
     }
   };
 
+  const handleOpenEndExamModal = () => {
+    setIsEndExamModalOpen(true);
+  };
+
+  const handleCloseEndExamModal = () => {
+    setIsEndExamModalOpen(false);
+  };
+
+  const handleConfirmEndExam = () => {
+    setIsEndExamModalOpen(false);
+    handleEndExam();
+  };
+
   if (testAlreadyTaken) {
     return (
       <div className="final-page">
@@ -430,7 +444,7 @@ const TestPage = () => {
           </div>
           {questions.length > 0 && (
             <div className="finish-exam-button-container">
-              <button className="contenido-clase-button2" onClick={handleEndExam}>Terminar Examen</button>
+              <button className="contenido-clase-button2" onClick={handleOpenEndExamModal}>Terminar Examen</button>
             </div>
           )}
         </div>
@@ -441,6 +455,16 @@ const TestPage = () => {
         </div>
       </div>
       <Alert open={alertOpen} handleClose={handleAlertClose} severity="warning" message="No se puede mover de esta página" />
+      {isEndExamModalOpen && (
+        <div className="end-exam-modal">
+          <div className="end-exam-modal-content">
+            <h2>¿Estás seguro de terminar el examen?</h2>
+            <p>Puedes verificar tus respuestas antes de finalizar.</p>
+            <button onClick={handleConfirmEndExam}>Aceptar</button>
+            <button onClick={handleCloseEndExamModal}>Cancelar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

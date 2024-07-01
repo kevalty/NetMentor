@@ -3,6 +3,7 @@ import Header from './HeaderLog';
 import Sidebar from './Sidebar';
 import './ProfilePage.css';
 import API_BASE_URL from '../config';
+import { useNavigate } from 'react-router-dom'; // Reemplazar useHistory con useNavigate
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
@@ -17,6 +18,8 @@ const ProfilePage = () => {
   });
   const [alertMessage, setAlertMessage] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const navigate = useNavigate(); // Usar useNavigate
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -146,6 +149,38 @@ const ProfilePage = () => {
     return userData && userData.profilePicture ? `https://netmentor.tech${userData.profilePicture.url}` : 'https://via.placeholder.com/150';
   };
 
+  // Funciones para manejar el modal de eliminación
+  const handleDeleteModalOpen = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteModalClose = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleDeleteAccount = async () => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt && userData && userData.id) {
+      try {
+        const response = await fetch(`${API_BASE_URL}users/${userData.id}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        });
+
+        if (response.ok) {
+          localStorage.removeItem('jwt');
+          navigate('/'); // Usar navigate en lugar de history.push
+        } else {
+          console.error('Error al eliminar la cuenta:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error al eliminar la cuenta:', error);
+      }
+    }
+  };
+
   return (
     <div className={`profile-page ${isSidebarOpen ? 'sidebar-open' : ''}`}>
       <Header userData={userData} />
@@ -161,6 +196,9 @@ const ProfilePage = () => {
               <h2>{userData.name} {userData.lastname}</h2>
               <button className="contenido-clase-button3" onClick={handleEditToggle}>
                 {isEditing ? 'Cancelar' : 'Editar Perfil'}
+              </button>
+              <button className="contenido-clase-button3" onClick={handleDeleteModalOpen}>
+                Eliminar Cuenta
               </button>
             </>
           )}
@@ -256,6 +294,16 @@ const ProfilePage = () => {
         <div className="alert">
           <p>{alertMessage}</p>
           <button onClick={handleAlertClose}>Cerrar</button>
+        </div>
+      )}
+      {isDeleteModalOpen && (
+        <div className="delete-modal">
+          <div className="delete-modal-content">
+            <h2>¿Estás seguro de eliminar tu cuenta?</h2>
+            <p>Esto borrará todos tus datos y no podrás recuperarlos.</p>
+            <button onClick={handleDeleteAccount}>Aceptar</button>
+            <button onClick={handleDeleteModalClose}>Cancelar</button>
+          </div>
         </div>
       )}
     </div>

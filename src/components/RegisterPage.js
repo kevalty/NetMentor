@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Header from './Header';
-import Footer from './Footer';
-import ManualModal from './ManualModal'; // Importa el componente ManualModal
+import ManualModal from './ManualModal';
 import './RegisterPage.css';
-import imagen1 from '../assets/Inicio1.png';
 import ojoIcon from '../assets/ojo.png';
 import invisibleIcon from '../assets/invisible.png';
 import RegisterIcon from '../assets/registerIcon.png';
-import API_BASE_URL from '../config'; // Importa la URL base desde config.js
-import '../App';
+import API_BASE_URL from '../config';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -24,9 +21,10 @@ const RegisterPage = () => {
   const [emptyFields, setEmptyFields] = useState([]);
   const [cursos, setCursos] = useState([]);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isUsernameFocused, setIsUsernameFocused] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
 
   useEffect(() => {
-    // Cargar los cursos desde la API
     const fetchCursos = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}cursos`);
@@ -43,7 +41,6 @@ const RegisterPage = () => {
     const { name, value } = e.target;
     setRegisterData(prevState => ({ ...prevState, [name]: value }));
 
-    // Remover el campo vacío de la lista de campos vacíos si se ha llenado
     if (emptyFields.includes(name)) {
       setEmptyFields(emptyFields.filter(field => field !== name));
     }
@@ -53,7 +50,6 @@ const RegisterPage = () => {
     e.preventDefault();
     const { username, email, password, name, lastname, confirmPassword, curso } = registerData;
 
-    // Verificar campos vacíos
     const empty = [];
     if (!username) empty.push('username');
     if (!email) empty.push('email');
@@ -70,16 +66,20 @@ const RegisterPage = () => {
       return;
     }
 
-    // Verificar formato de correo electrónico
     if (!isValidEmail(email)) {
       setError('El formato del correo electrónico es inválido');
       setErrorOpen(true);
       return;
     }
 
-    // Verificar si el nombre de usuario contiene espacios
-    if (/\s/.test(username)) {
-      setError('El nombre de usuario no puede contener espacios');
+    if (/\s/.test(username) || !/^[a-zA-Z0-9]+$/.test(username)) {
+      setError('El nombre de usuario solo puede contener letras y números, y no puede tener espacios');
+      setErrorOpen(true);
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      setError('La contraseña debe tener al menos una mayúscula, un número y mínimo 8 caracteres');
       setErrorOpen(true);
       return;
     }
@@ -91,14 +91,12 @@ const RegisterPage = () => {
     }
 
     try {
-      // Verificar si el nombre de usuario ya existe
       const checkUsernameResponse = await fetch(`${API_BASE_URL}users?username=${username}`);
       if (!checkUsernameResponse.ok) {
         throw new Error('Error al verificar el nombre de usuario');
       }
       const userData = await checkUsernameResponse.json();
 
-      // Buscar si hay algún usuario con el mismo nombre de usuario
       const existingUser = userData.find(user => user.username === username);
       if (existingUser) {
         setError('El nombre de usuario ya está en uso');
@@ -117,7 +115,6 @@ const RegisterPage = () => {
       });
 
       if (response.ok) {
-        // Enviar correo de confirmación
         try {
           await fetch(`${API_BASE_URL}auth/email-confirmation?email=${email}`, {
             method: 'GET',
@@ -131,7 +128,7 @@ const RegisterPage = () => {
         setSuccessOpen(true);
         setTimeout(() => {
           navigate('/login');
-        }, 2000); // Redirige a /login después de 2 segundos
+        }, 2000);
       } else {
         const data = await response.json();
         setError(data.message || 'Error al registrar usuario');
@@ -172,18 +169,38 @@ const RegisterPage = () => {
                 value={registerData.username}
                 onChange={handleRegisterChange}
                 placeholder="Nombre de Usuario *"
-                style={{ borderColor: registerData.username && /\s/.test(registerData.username) ? 'red' : '' }}
+                onFocus={() => setIsUsernameFocused(true)}
+                onBlur={() => setIsUsernameFocused(false)}
+                style={{ borderColor: registerData.username && (/\s/.test(registerData.username) || !/^[a-zA-Z0-9]+$/.test(registerData.username)) ? 'red' : '' }}
                 required
               />
+              {isUsernameFocused && (
+                <div className="password-requirements">
+                  <ul>
+                    <li>Solo letras y números</li>
+                    <li>No puede contener espacios</li>
+                  </ul>
+                </div>
+              )}
               <input
                 type="email"
                 name="email"
                 value={registerData.email}
                 onChange={handleRegisterChange}
                 placeholder="Correo Electrónico *"
+                onFocus={() => setIsEmailFocused(true)}
+                onBlur={() => setIsEmailFocused(false)}
                 style={{ borderColor: registerData.email ? (isValidEmail(registerData.email) ? 'green' : 'red') : '' }}
                 required
               />
+              {isEmailFocused && (
+                <div className="password-requirements">
+                  <ul>
+                    <li>Debe ser un correo válido</li>
+                    <li>Debe contener "@" y ".com"</li>
+                  </ul>
+                </div>
+              )}
               <div className="password-input-container">
                 <button
                   type="button"
@@ -207,12 +224,12 @@ const RegisterPage = () => {
               </div>
               {isPasswordFocused && (
                 <div className="password-requirements">
-                <ul>
-                  <li>Al menos una mayúscula</li>
-                  <li>Al menos un número</li>
-                  <li>Mínimo 8 caracteres</li>
-                </ul>
-              </div>
+                  <ul>
+                    <li>Al menos una mayúscula</li>
+                    <li>Al menos un número</li>
+                    <li>Mínimo 8 caracteres</li>
+                  </ul>
+                </div>
               )}
               <div className="password-input-container">
                 <button

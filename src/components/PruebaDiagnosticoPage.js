@@ -12,6 +12,7 @@ const DiagnosticoPage = () => {
   const [remainingTime, setRemainingTime] = useState(0);
   const [testActive, setTestActive] = useState(true);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [isEndExamModalOpen, setIsEndExamModalOpen] = useState(false); // Estado para el modal de finalización del examen
   const navigate = useNavigate();
   const intervalRef = useRef(null);
 
@@ -264,6 +265,19 @@ const DiagnosticoPage = () => {
     navigate('/resultado', { state: { score: roundedScore, questions, answers } });
   };
 
+  const handleOpenEndExamModal = () => {
+    setIsEndExamModalOpen(true);
+  };
+
+  const handleCloseEndExamModal = () => {
+    setIsEndExamModalOpen(false);
+  };
+
+  const handleConfirmEndExam = () => {
+    setIsEndExamModalOpen(false);
+    handleEndExam();
+  };
+
   if (!testActive) {
     return <div>El examen está desactivado.</div>;
   }
@@ -375,7 +389,7 @@ const DiagnosticoPage = () => {
           </div>
           {questions.length > 0 && (
             <div className="finish-exam-button-container">
-              <button className="finish-exam-button diagnostico-finish-exam-button" onClick={handleEndExam}>Terminar Examen</button>
+              <button className="finish-exam-button diagnostico-finish-exam-button" onClick={handleOpenEndExamModal}>Terminar Examen</button>
             </div>
           )}
         </div>
@@ -386,6 +400,16 @@ const DiagnosticoPage = () => {
         </div>
       </div>
       <Alert open={alertOpen} handleClose={handleAlertClose} severity="warning" message="No se puede mover de esta página" />
+      {isEndExamModalOpen && (
+        <div className="end-exam-modal">
+          <div className="end-exam-modal-content">
+            <h2>¿Estás seguro de terminar el examen?</h2>
+            <p>Puedes verificar tus respuestas antes de finalizar.</p>
+            <button onClick={handleConfirmEndExam}>Aceptar</button>
+            <button onClick={handleCloseEndExamModal}>Cancelar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
