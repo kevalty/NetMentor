@@ -1,17 +1,17 @@
 .homepage {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
 body, h2, p, a, button, ul, li {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-size: large;
   margin-top: 60px;
-  margin-left: 100px;
 }
 
 .container1 {
@@ -19,9 +19,7 @@ body, h2, p, a, button, ul, li {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-size: large;
   margin-top: 140px;
-  margin-left: 50px;
 }
 
 .section {
@@ -29,7 +27,24 @@ body, h2, p, a, button, ul, li {
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 100px;
-  text-align: center;
+}
+
+.section.main-section {
+  justify-content: space-between; /* Distribuye espacio entre los elementos */
+}
+
+.text-column {
+  max-width: 600px; /* Limita el ancho máximo del texto */
+  text-align: left; /* Alinea el texto a la izquierda */
+  /* border: 1px solid #ccc; Eliminar el borde */
+  /* padding: 20px; Eliminar el padding adicional */
+  /* border-radius: 5px; Eliminar bordes redondeados */
+  /* background-color: #f9f9f9; Eliminar el color de fondo */
+}
+
+.text-column h2, .text-column p {
+  text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+  margin: 0; /* Elimina márgenes adicionales */
 }
 
 .column {
@@ -40,27 +55,18 @@ body, h2, p, a, button, ul, li {
   align-items: center;
 }
 
-.column.left {
-  order: 2;
-}
-
 .column.left .diamond-image {
   width: 400px;
   height: 400px;
-  background-image: url('../assets/Img2.png');
   background-size: cover;
   background-position: center;
-  margin-top: -30px;
-}
-
-.column:nth-child(2) {
-  order: 1;
 }
 
 .new-content {
   flex: 1;
   max-width: 300px;
   order: 3;
+  text-align: left; /* Alineación a la izquierda para el texto */
 }
 
 @media (max-width: 768px) {
@@ -71,6 +77,10 @@ body, h2, p, a, button, ul, li {
     max-width: none;
     order: unset;
   }
+
+  .text-column {
+    text-align: left; /* Alinea el texto a la izquierda incluso en dispositivos móviles */
+  }
 }
 
 .imagenes {
@@ -80,8 +90,8 @@ body, h2, p, a, button, ul, li {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.tittle1 {
-  font-size: xx-large;
+.title1 {
+
   margin-top: -100px;
   text-decoration: underline; /* Cambiar a subrayado para mejorar la estética */
 }
@@ -99,6 +109,7 @@ body, h2, p, a, button, ul, li {
 .section.second-section .column h3 {
   margin-bottom: 10px; /* Añadir un pequeño margen inferior a los títulos */
 }
+
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .container, .container1 {
@@ -113,7 +124,7 @@ body, h2, p, a, button, ul, li {
     width: 50px;
     height: 50px;
   }
-  .tittle1 {
+  .title1 {
     font-size: large;
     margin-top: 0;
   }

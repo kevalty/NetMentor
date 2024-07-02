@@ -23,6 +23,8 @@ const RegisterPage = () => {
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isUsernameFocused, setIsUsernameFocused] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isNameFocused, setIsNameFocused] = useState(false);
+  const [isLastnameFocused, setIsLastnameFocused] = useState(false);
 
   useEffect(() => {
     const fetchCursos = async () => {
@@ -152,6 +154,7 @@ const RegisterPage = () => {
 
   const isValidEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isValidPassword = password => /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
+  const isValidName = name => /^[a-zA-Z\s]+$/.test(name);
 
   return (
     <div>
@@ -161,8 +164,42 @@ const RegisterPage = () => {
           <form onSubmit={handleRegisterSubmit} className="register-form1">
             <h2>Registrarse</h2>
             <div className="input-container">
-              <input type="text" name="name" value={registerData.name} onChange={handleRegisterChange} placeholder="Nombre *" required />
-              <input type="text" name="lastname" value={registerData.lastname} onChange={handleRegisterChange} placeholder="Apellido *" required />
+              <input
+                type="text"
+                name="name"
+                value={registerData.name}
+                onChange={handleRegisterChange}
+                placeholder="Nombre *"
+                onFocus={() => setIsNameFocused(true)}
+                onBlur={() => setIsNameFocused(false)}
+                style={{ borderColor: registerData.name ? (isValidName(registerData.name) ? 'green' : 'red') : '' }}
+                required
+              />
+              {isNameFocused && (
+                <div className="name-requirements">
+                  <ul>
+                    <li>Solo letras</li>
+                  </ul>
+                </div>
+              )}
+              <input
+                type="text"
+                name="lastname"
+                value={registerData.lastname}
+                onChange={handleRegisterChange}
+                placeholder="Apellido *"
+                onFocus={() => setIsLastnameFocused(true)}
+                onBlur={() => setIsLastnameFocused(false)}
+                style={{ borderColor: registerData.lastname ? (isValidName(registerData.lastname) ? 'green' : 'red') : '' }}
+                required
+              />
+              {isLastnameFocused && (
+                <div className="lastname-requirements">
+                  <ul>
+                    <li>Solo letras</li>
+                  </ul>
+                </div>
+              )}
               <input
                 type="text"
                 name="username"
@@ -171,11 +208,11 @@ const RegisterPage = () => {
                 placeholder="Nombre de Usuario *"
                 onFocus={() => setIsUsernameFocused(true)}
                 onBlur={() => setIsUsernameFocused(false)}
-                style={{ borderColor: registerData.username && (/\s/.test(registerData.username) || !/^[a-zA-Z0-9]+$/.test(registerData.username)) ? 'red' : '' }}
+                style={{ borderColor: registerData.username && (/\s/.test(registerData.username) || !/^[a-zA-Z0-9]+$/.test(registerData.username)) ? 'red' : (registerData.username ? 'green' : '') }}
                 required
               />
               {isUsernameFocused && (
-                <div className="password-requirements">
+                <div className="username-requirements">
                   <ul>
                     <li>Solo letras y números</li>
                     <li>No puede contener espacios</li>
@@ -194,7 +231,7 @@ const RegisterPage = () => {
                 required
               />
               {isEmailFocused && (
-                <div className="password-requirements">
+                <div className="email-requirements">
                   <ul>
                     <li>Debe ser un correo válido</li>
                     <li>Debe contener "@" y ".com"</li>
@@ -247,7 +284,7 @@ const RegisterPage = () => {
                   value={registerData.confirmPassword}
                   onChange={handleRegisterChange}
                   placeholder="Confirmar Contraseña *"
-                  style={{ borderColor: registerData.confirmPassword && registerData.confirmPassword === registerData.password ? 'green' : '' }}
+                  style={{ borderColor: registerData.confirmPassword && registerData.confirmPassword === registerData.password ? 'green' : (registerData.confirmPassword ? 'red' : '') }}
                 />
               </div>
               <select

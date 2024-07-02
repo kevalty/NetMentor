@@ -6,7 +6,7 @@ import './HomePage.css'; // Importa el archivo CSS
 import imagen1 from '../assets/por1.png';
 import imagen2 from '../assets/por2.png';
 import imagen3 from '../assets/por3.png';
-import '../App';
+import mainImage from '../assets/Img2.png';
 
 const HomePage = () => {
   return (
@@ -16,35 +16,33 @@ const HomePage = () => {
         <section className="section main-section">
           <div className="column left">
             <div className="diamond-image-container">
-              <div className="diamond-image"></div>
+              <img src={mainImage} alt="Main visual" className="diamond-image" />
             </div>
           </div>
-          <div className="column">
+          <div className="column text-column">
             <h2>Conectando el mundo, un bit a la vez</h2>
             <p>¡Bienvenidos y bienvenidas a nuestra aplicación para aprender Redes de Computadores! Aquí encontrarás todo lo que necesitas saber para dominar este fascinante campo de manera efectiva. Desde conceptos básicos hasta tecnologías avanzadas, estamos aquí para guiarte en tu viaje por el mundo de las Redes. Descubre material didáctico, videos interactivos, actividades de refuerzo, y recursos adicionales para optimizar tu aprendizaje. Con nuestra aplicación, aprender sobre Redes de Computadoras nunca ha sido tan fácil y emocionante. ¡Empieza tu aventura educativa hoy mismo!</p>
           </div>
         </section>
       </div>
-      {/* Línea divisoria */}
       <hr className="divider" />
       <div className="container1">
-        <h2 className='tittle1'>¿Por qué funciona NetMentor?</h2>
+        <h2 className="title1">¿Por qué funciona NetMentor?</h2>
         <section className="section second-section">
-          {/* Nuevos conjuntos de imágenes y texto */}
           <div className="column new-content">
             <img className="imagenes" src={imagen1} alt="Imagen 1" />
-            <h3>Confianza</h3>
-            <p>Aprendizaje personalizado Los estudiantes practican a su propio ritmo; primero para llenar las lagunas en su comprensión y luego acelerar su aprendizaje.</p>
+            <h3>Gamificación Interactiva</h3>
+            <p>Utiliza elementos de gamificación y actividades interactivas para hacer el aprendizaje más atractivo y motivador. Lo que facilita la comprensión de conceptos complejos de Redes de una manera divertida y envolvente.</p>
           </div>
           <div className="column new-content">
             <img className="imagenes" src={imagen2} alt="Imagen 2" />
-            <h3>Aprendizaje personalizado</h3>
-            <p>Contenido de confianza Creado por expertos, la biblioteca de ejercicios y lecciones de NetMentor cubre reded de computadores. Y siempre es gratis para estudiantes y maestros.</p>
+            <h3>Estructura y Progreso</h3>
+            <p>Proporciona contenido educativo bien estructurado, incluyendo lecciones teóricas y tutoriales paso a paso. Además, cubre una amplia gama de temas relacionados con Redes de Computadores.</p>
           </div>
           <div className="column new-content">
             <img className="imagenes" src={imagen3} alt="Imagen 3" />
-            <h3>Herramientas</h3>
-            <p>Herramientas para empoderar a los maestros Con NetMentor los maestros pueden identificar las lagunas en comprensión de sus estudiantes, crear una clase a la medida y satisfacer las necesidades de cada uno.</p>
+            <h3>Plataforma Integral</h3>
+            <p>Su interfaz intuitiva y accesible facilita el acceso a los contenidos y la navegación por las distintas secciones del software, mejorando la experiencia de aprendizaje de los estudiantes.</p>
           </div>
         </section>
       </div>
