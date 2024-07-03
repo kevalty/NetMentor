@@ -1,4 +1,3 @@
-/* ResultadoPage.css */
 body, h2, p, a, button, ul, li {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -95,11 +94,7 @@ body, h2, p, a, button, ul, li {
   line-height: 1.6;
 }
 
-.bold-user-answer {
-  font-weight: bold;
-}
-
-.bold-correct-answer {
+.bold-label {
   font-weight: bold;
 }
 
@@ -139,6 +134,7 @@ body, h2, p, a, button, ul, li {
   margin-right: auto;
   margin-top: 15px;
 }
+
 .certificado-button:hover {
   background-color: #284a7e; /* Color de fondo del botón al pasar el mouse */
 }

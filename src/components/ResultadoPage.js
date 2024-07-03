@@ -85,9 +85,7 @@ const ResultadoPage = () => {
       return correct_indexes.map((index, i) => (
         <React.Fragment key={i}>
           {i > 0 && ', '}
-          <span className="bold-correct-answer">
-            {question.attributes.choices[Object.keys(question.attributes.choices)[index]]}
-          </span>
+          <span>{question.attributes.choices[Object.keys(question.attributes.choices)[index]]}</span>
         </React.Fragment>
       ));
     }
@@ -95,7 +93,7 @@ const ResultadoPage = () => {
       return drag_options.map((option, idx) => {
         const textInitial = option.text_initial ? option.text_initial + ' ' : '';
         const optionText = option.option ? (
-          <span key={idx} className="bold-correct-answer">{option.option + ' '}</span>
+          <span key={idx}>{option.option + ' '}</span>
         ) : '______ ';
         const textFinal = option.text_final ? option.text_final + ' ' : '';
         return (
@@ -114,9 +112,7 @@ const ResultadoPage = () => {
       return answer.map((a, i) => (
         <React.Fragment key={i}>
           {i > 0 && ', '}
-          <span className="bold-user-answer">
-            {choices[Object.keys(choices)[a]]}
-          </span>
+          <span>{choices[Object.keys(choices)[a]]}</span>
         </React.Fragment>
       ));
     }
@@ -124,7 +120,7 @@ const ResultadoPage = () => {
       return drag_options.map((option, idx) => {
         const textInitial = option.text_initial ? option.text_initial + ' ' : '';
         const answerText = answer[idx] ? (
-          <span key={idx} className="bold-user-answer">{answer[idx] + ' '}</span>
+          <span key={idx}>{answer[idx] + ' '}</span>
         ) : '______ ';
         const textFinal = option.text_final ? option.text_final + ' ' : '';
         return (
@@ -152,10 +148,10 @@ const ResultadoPage = () => {
                 <li key={index} className="answer-item">
                   <p className="question">{question.attributes.name}</p>
                   <p className="user-answer">
-                    Su respuesta: {renderUserAnswer(question, answers[index])}
+                    <span className="bold-label">Su respuesta:</span> {renderUserAnswer(question, answers[index])}
                   </p>
                   <p className="correct-answer">
-                    Respuesta correcta: {renderCorrectAnswer(question)}
+                    <span className="bold-label">Respuesta correcta:</span> {renderCorrectAnswer(question)}
                   </p>
                   <p className="explanation">
                     Explicación: {question.attributes.explication}

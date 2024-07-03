@@ -30,7 +30,7 @@ body, h2, p, a, button, ul, li {
   padding-left: 20px;
   background-image: url('../assets/background_login.jpg');
   min-height: 100%;
-  margin-top: 10px;
+  margin-top: 50px;
   border-radius: 10px;
   margin-bottom: 10px;
   display: flex;
@@ -38,7 +38,7 @@ body, h2, p, a, button, ul, li {
   align-items: center;
   text-align: center;
   width: 700px;
-  height: 700px;
+  height: 500px;
 }
 
 .register-page-specific .register-form1 {
