@@ -106,7 +106,7 @@ const RegisterPage = () => {
         return;
       }
 
-      const dataWithRole = { ...registerData, role: 3 };
+      const dataWithRole = { ...registerData, role: 3, confirmed: true }; // Set confirmed to true
 
       const response = await fetch(`${API_BASE_URL}users`, {
         method: 'POST',
