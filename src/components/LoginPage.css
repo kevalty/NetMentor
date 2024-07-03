@@ -67,10 +67,9 @@ body, h2, p, a, button, ul, li {
   border: none;
   border-bottom: 1px solid #ccc;
   outline: none;
-  width: 50%;
+  width: calc(100% - 200px); /* Adjust the width to leave space for the button */
   font-size: 16px;
   box-sizing: border-box;
-  padding-right: 40px; /* Espacio para el botón del ojo */
 }
 
 .login-page-specific .login-form1 input:last-child {
@@ -84,12 +83,13 @@ body, h2, p, a, button, ul, li {
 .login-page-specific .password-input-container {
   position: relative;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .login-page-specific .password-toggle-button {
   position: absolute;
-  top: 37%;
-  right: 115px;
+  top: 35%;
+  right: 108px; /* Adjusted to keep it within the input field */
   transform: translateY(-50%);
   background-color: transparent;
   border: none;
