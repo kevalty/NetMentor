@@ -51,15 +51,27 @@ const ContenidosPage = () => {
             const introResponse = await fetch(`${API_BASE_URL}introductions?filters[content]=${content.id}`);
             if (introResponse.ok) {
               const introData = await introResponse.json();
-              content.introduction = introData.data.length > 0 ? introData.data[0] : null;
+              content.introduction = introData.data && introData.data.length > 0 ? introData.data[0] : null;
+            } else {
+              content.introduction = null;
             }
 
             // Check if user has taken the test for this content
             const takenTestsResponse = await fetch(`${API_BASE_URL}taken-tests?populate=*`);
             if (takenTestsResponse.ok) {
               const takenTestsData = await takenTestsResponse.json();
-              const userTakenTests = takenTestsData.data.filter(test => test.attributes.user.data.id === userData.id);
-              content.attributes.comprobado = userTakenTests.some(test => test.attributes.tests.data.some(t => t.id === content.id));
+              if (takenTestsData.data && userData && userData.id) {
+                const userTakenTests = takenTestsData.data.filter(test => 
+                  test.attributes.user.data && test.attributes.user.data.id === userData.id
+                );
+                content.attributes.comprobado = userTakenTests.some(test => 
+                  test.attributes.tests.data && test.attributes.tests.data.some(t => t.id === content.id)
+                );
+              } else {
+                content.attributes.comprobado = false;
+              }
+            } else {
+              content.attributes.comprobado = false;
             }
 
             return content;
