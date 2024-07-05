@@ -1,3 +1,4 @@
+// src/components/DiagnosticoPage.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Alert from './Alert';
@@ -375,14 +376,16 @@ const DiagnosticoPage = () => {
           <p className="question-instructions diagnostico-question-instructions">Por favor, seleccione una respuesta para cada pregunta:</p>
           <div className="questions diagnostico-questions">
             {questions.length > 0 ? (
-              questions.map((question, index) => (
-                <div key={index} className="question-box diagnostico-question-box">
-                  <div className="question-content diagnostico-question-content">
-                    <p className="question-name diagnostico-question-name"><strong>{question.attributes.name}</strong></p>
-                    {renderQuestionContent(question, index)}
+              questions
+                .filter(question => question.attributes.on) // Filtrar preguntas con `on: true`
+                .map((question, index) => (
+                  <div key={index} className="question-box diagnostico-question-box">
+                    <div className="question-content diagnostico-question-content">
+                      <p className="question-name diagnostico-question-name"><strong>{question.attributes.name}</strong></p>
+                      {renderQuestionContent(question, index)}
+                    </div>
                   </div>
-                </div>
-              ))
+                ))
             ) : (
               <p className="no-questions-text diagnostico-no-questions-text">No hay preguntas disponibles.</p>
             )}

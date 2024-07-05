@@ -1,3 +1,4 @@
+// src/components/TestPage.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Alert from './Alert';
@@ -430,14 +431,16 @@ const TestPage = () => {
           <p className="question-instructions final-question-instructions">Por favor, seleccione una respuesta para cada pregunta:</p>
           <div className="questions final-questions">
             {questions.length > 0 ? (
-              questions.map((question, index) => (
-                <div key={index} className="question-box final-question-box">
-                  <div className="question-content final-question-content">
-                    <p className="question-name final-question-name"><strong>{question.attributes.name}</strong></p>
-                    {renderQuestionContent(question, index)}
+              questions
+                .filter(question => question.attributes.on) // Filtrar preguntas con `on: true`
+                .map((question, index) => (
+                  <div key={index} className="question-box final-question-box">
+                    <div className="question-content final-question-content">
+                      <p className="question-name final-question-name"><strong>{question.attributes.name}</strong></p>
+                      {renderQuestionContent(question, index)}
+                    </div>
                   </div>
-                </div>
-              ))
+                ))
             ) : (
               <p className="no-questions-text final-no-questions-text">No hay preguntas disponibles.</p>
             )}

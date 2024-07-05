@@ -1,3 +1,4 @@
+// src/components/ResultadoPage.js
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './HeaderLog';
@@ -144,20 +145,22 @@ const ResultadoPage = () => {
           <div className="answers-box">
             <h2 className="answers-title">Respuestas:</h2>
             <ul className="answers-list">
-              {questions.map((question, index) => (
-                <li key={index} className="answer-item">
-                  <p className="question">{question.attributes.name}</p>
-                  <p className="user-answer">
-                    <span className="bold-label">Su respuesta:</span> {renderUserAnswer(question, answers[index])}
-                  </p>
-                  <p className="correct-answer">
-                    <span className="bold-label">Respuesta correcta:</span> {renderCorrectAnswer(question)}
-                  </p>
-                  <p className="explanation">
-                    Explicación: {question.attributes.explication}
-                  </p>
-                </li>
-              ))}
+              {questions
+                .filter(question => question.attributes.on) // Filtrar preguntas con `on: true`
+                .map((question, index) => (
+                  <li key={index} className="answer-item">
+                    <p className="question">{question.attributes.name}</p>
+                    <p className="user-answer">
+                      <span className="bold-label">Su respuesta:</span> {renderUserAnswer(question, answers[index])}
+                    </p>
+                    <p className="correct-answer">
+                      <span className="bold-label">Respuesta correcta:</span> {renderCorrectAnswer(question)}
+                    </p>
+                    <p className="explanation">
+                      Explicación: {question.attributes.explication}
+                    </p>
+                  </li>
+                ))}
             </ul>
           </div>
           {isEligibleForCertificate && (

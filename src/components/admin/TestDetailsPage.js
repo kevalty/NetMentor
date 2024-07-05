@@ -1,3 +1,4 @@
+// src/components/TestDetailsPage.js
 import React, { useState, useEffect } from 'react';
 import AdminHeader from './AdminHeader';
 import AdminNavigationBar from './AdminNavigationBar';
@@ -10,6 +11,33 @@ import AlertModal from '../Alert2.js';
 import './PreguntasCruds.css';
 import API_BASE_URL from '../../config'; // Importa la URL base desde config.js
 
+// Nuevo componente Switch
+const Switch = ({ isOn, handleToggle }) => {
+  return (
+    <div onClick={handleToggle} style={{ cursor: 'pointer', display: 'inline-block', padding: '5px' }}>
+      <div style={{
+        width: '40px',
+        height: '20px',
+        background: isOn ? 'green' : 'red',
+        borderRadius: '20px',
+        position: 'relative',
+        transition: 'background 0.3s'
+      }}>
+        <div style={{
+          width: '20px',
+          height: '20px',
+          background: 'white',
+          borderRadius: '50%',
+          position: 'absolute',
+          top: '0',
+          left: isOn ? '20px' : '0',
+          transition: 'left 0.3s'
+        }} />
+      </div>
+    </div>
+  );
+};
+
 function TestDetailsPage() {
   const [questions, setQuestions] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -17,6 +45,7 @@ function TestDetailsPage() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [allOn, setAllOn] = useState(true); // Estado para el interruptor general
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -115,6 +144,52 @@ function TestDetailsPage() {
     setShowEditModal(true);
   };
 
+  const handleToggleQuestionOn = (questionId, currentState) => {
+    fetch(`${API_BASE_URL}questions/${questionId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ data: { on: !currentState } })
+    })
+      .then(response => response.json())
+      .then(data => {
+        const updatedQuestions = questions.map(question => {
+          if (question.id === questionId) {
+            return { ...question, attributes: { ...question.attributes, on: !currentState } };
+          }
+          return question;
+        });
+        setQuestions(updatedQuestions);
+      })
+      .catch(error => {
+        console.error('Error al cambiar el estado de la pregunta:', error);
+      });
+  };
+
+  const handleToggleAllOn = () => {
+    const newOnState = !allOn;
+    const updatedQuestions = questions.map(question => {
+      fetch(`${API_BASE_URL}questions/${question.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: { on: newOnState } })
+      })
+        .then(response => response.json())
+        .then(data => {
+          setQuestions(prevQuestions => prevQuestions.map(q => q.id === question.id ? { ...q, attributes: { ...q.attributes, on: newOnState } } : q));
+        })
+        .catch(error => {
+          console.error('Error al cambiar el estado de la pregunta:', error);
+        });
+      return { ...question, attributes: { ...question.attributes, on: newOnState } };
+    });
+    setQuestions(updatedQuestions);
+    setAllOn(newOnState);
+  };
+
   const renderDragAndDropQuestion = (dragOptions) => {
     return (
       <p>
@@ -154,6 +229,10 @@ function TestDetailsPage() {
             <span className="add-title">Añadir Pregunta</span>
           </div>
           <div className="admin-content__inner">
+            <div className="switch-all">
+              <span>Activar/Desactivar todas las preguntas: </span>
+              <Switch isOn={allOn} handleToggle={handleToggleAllOn} />
+            </div>
             <div className="questions-container">
               {questions.map((question, index) => {
                 const attributes = question.attributes || {};
@@ -171,6 +250,7 @@ function TestDetailsPage() {
                     <div className="question-actions">
                       <img src={editarIcon} alt="Editar" className="edit-icon" onClick={() => handleEditClick(question)} />
                       <img src={eliminarIcon} alt="Eliminar" className="delete-icon" onClick={() => handleDeleteQuestion(question.id)} />
+                      <Switch isOn={attributes.on} handleToggle={() => handleToggleQuestionOn(question.id, attributes.on)} />
                     </div>
                   </div>
                 );

@@ -1,10 +1,10 @@
+// src/components/ClasePage.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from './HeaderLog';
 import Sidebar from './Sidebar';
 import Alert from './Alert';
 import './ClasePage.css';
-import comprobadoIcon from '../assets/comprobado.png';
 import API_BASE_URL from '../config'; // Importa la URL base desde config.js
 
 const ClasePage = () => {
@@ -13,6 +13,7 @@ const ClasePage = () => {
   const [resourceUrl, setResourceUrl] = useState(null);
   const [activeSubcontentType, setActiveSubcontentType] = useState(null); // Estado para manejar el subcontenido activo
   const [clickedUrls, setClickedUrls] = useState({});
+  const [subcontentTests, setSubcontentTests] = useState({}); // Estado para manejar los tests de los subcontenidos
   const { contentId } = useParams();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -55,6 +56,15 @@ const ClasePage = () => {
             };
           });
           setClickedUrls(initialClickedUrls);
+
+          // Fetch subcontent tests
+          const subcontentTests = {};
+          await Promise.all(data.data.attributes.subcontents.data.map(async subcontent => {
+            const subcontentResponse = await fetch(`${API_BASE_URL}subcontents/${subcontent.id}?populate=*`);
+            const subcontentData = await subcontentResponse.json();
+            subcontentTests[subcontent.id] = subcontentData.data.attributes.test?.data || null;
+          }));
+          setSubcontentTests(subcontentTests);
         } else {
           console.error('Error fetching content details');
         }
@@ -94,7 +104,11 @@ const ClasePage = () => {
     setVisibleSubcontent(visibleSubcontent === subcontentId ? null : subcontentId);
   };
 
-  const handleTestButtonClick = () => {
+  const handleTestButtonClick = (subcontentId, subcontentTestId) => {
+    navigate(`/TestContent/${subcontentId}/${subcontentTestId}`);
+  };
+
+  const handleGlobalTestButtonClick = () => {
     const allClicked = Object.values(clickedUrls).every(urls =>
       Object.values(urls).every(clicked => clicked)
     );
@@ -151,6 +165,11 @@ const ClasePage = () => {
                       <a className={`subcontent-sublink2 ${activeSubcontentType === 'refuerzo' ? 'active' : ''}`}>Material de Refuerzo</a>
                     </li>
                   )}
+                  {subcontentTests[subcontent.id] && (
+                    <li onClick={() => handleTestButtonClick(subcontent.id, subcontentTests[subcontent.id].id)}>
+                      <a className="subcontent-sublink2">Tomar Prueba de {subcontent.attributes.name}</a>
+                    </li>
+                  )}
                 </ul>
               )}
             </div>
@@ -158,7 +177,7 @@ const ClasePage = () => {
           {testId && (
             <button
               className={`test-button2 ${Object.values(clickedUrls).every(urls => Object.values(urls).every(clicked => clicked)) ? '' : 'disabled'}`}
-              onClick={handleTestButtonClick}
+              onClick={handleGlobalTestButtonClick}
             >
               Tomar Examen
             </button>
